@@ -26,15 +26,15 @@ public class Hotel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(length = 20,name = "name")
+	@Column(length = 20, name = "name")
 	private String name;
-	@Column(length = 100,name = "address")
+	@Column(length = 100, name = "address")
 	private String address;
 	@Column(name = "starRating")
 	private int starRating;
-	//hotel*->1 destination
+	// hotel*->1 destination
 	@ManyToOne
 	@JoinColumn(name = "destination_id")
 	private Destination destinations;
-	
+
 }
