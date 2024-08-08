@@ -1,5 +1,7 @@
 package com.app.journeyjoy.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,10 +28,13 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(length = 30,name = "name")
-	private String name;
+	@Column(length = 30,name = "fname")
+	private String firstName;
+	@Column(length = 30,name = "lname")
+	private String lastName;
 	@Column(length = 30,name = "email",unique = true)
 	private String email;
+	private LocalDate dob;
 	@Column(length = 30,name = "Phoneno")
 	private String phoneno;
 	@Enumerated(EnumType.STRING)
@@ -39,4 +44,12 @@ public class User {
 	private String address;
 	@Column(length = 20,name = "password")
 	private String password;
+	
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
 }

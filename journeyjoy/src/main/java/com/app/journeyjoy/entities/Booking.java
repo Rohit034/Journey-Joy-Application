@@ -42,4 +42,5 @@ public class Booking {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "paymentstatus")
 	private PaymentStatus paymentstatus;
+	
 }
