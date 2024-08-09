@@ -36,6 +36,7 @@ public class Tour {
 	private LocalDate startdate;
 	@Column(name = "enddate")
 	private LocalDate endDate;
+	@Column(name = "price")
 	private double price;
 	//Tour*-> 1 User
 	@ManyToOne

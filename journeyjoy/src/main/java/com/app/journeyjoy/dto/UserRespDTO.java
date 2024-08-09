@@ -13,4 +13,6 @@ public class UserRespDTO {
 	private String address;
 	private String phoneno;
 	private LocalDate dob;
+	private String email;
+	private String password;
 }

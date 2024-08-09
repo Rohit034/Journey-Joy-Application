@@ -35,13 +35,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse addNewUser(UserRespDTO userdto) {
-		List<User> users=userRepository.findAll();
-		for (User user : users) {
-			if(user.getRole()==Role.ROLE_ADMIN) {
-				
-			}
-		}
-		return null;
+		User user=mapper.map(userdto, User.class);
+		
+		user.setRole(Role.ROLE_CUSTOMER);
+		userRepository.save(user);
+		return new ApiResponse("New User is Added");
 	}
 
 }
