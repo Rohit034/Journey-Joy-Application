@@ -12,57 +12,90 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.dto.HotelDTO;
-import com.app.journeyjoy.entities.Hotel;
+import com.app.journeyjoy.dto.TourDTO;
 import com.app.journeyjoy.service.DestinationService;
 import com.app.journeyjoy.service.HotelService;
-
-
+import com.app.journeyjoy.service.TourService;
 
 @RestController
 @RequestMapping("/Admin")
 public class AdminController {
-	
+
 	@Autowired // byType
 	private HotelService hotelservice;
 	@Autowired
 	private DestinationService destinationService;
+	@Autowired
+	private TourService tourService;
 
+//	Tour Operations
+
+	@GetMapping("/getAllTour")
+	public List<TourDTO> listAllTour() {
+		return tourService.getallTour();
+	}
+
+	@PostMapping("/newTour")
+	public ApiResponse addNewTour(@RequestBody TourDTO tour) {
+		System.out.println("in add new category " + tour);
+		return tourService.addNewTour(tour);
+	}
+
+	@DeleteMapping("/{DeleteTourid}")
+	public ApiResponse deleteTour(@PathVariable Long DeleteTourid) {
+
+		return tourService.deleteTour(DeleteTourid);
+
+	}
+
+//	Destination operations
+
+	@GetMapping("/getAllDestination")
+	public List<DestinationDTO> listAllDestination() {
+		return destinationService.getallDestination();
+	}
+
+	@PostMapping("/newDestination")
+	public ApiResponse addNewDestination(@RequestBody DestinationDTO Dest) {
+		System.out.println("in add new category " + Dest);
+		return destinationService.addNewDestination(Dest);
+	}
+
+	@DeleteMapping("/{DeleteDestinationid}")
+	public ApiResponse deleteDestination(@PathVariable Long DeleteDestinationid) {
+
+		return tourService.deleteTour(DeleteDestinationid);
+
+	}
+
+//	Hotel operations
 
 	@GetMapping("/allhotel")
 	public List<HotelDTO> listAllHotels() {
-		System.out.println("in list all categories");
+
 		return hotelservice.getallhotel();
 	}
 
-	
 	@PostMapping("/newHotel")
-	public Hotel addNewhotel(@RequestBody Hotel hotel) {
-		System.out.println("in add new category " + hotel);
+	public ApiResponse addNewhotel(@RequestBody HotelDTO hotel) {
+
 		return hotelservice.addNewHotel(hotel);
 	}
-	
+
 	@DeleteMapping("/{hotelId}")
-	public String deleteHotelDetails(@PathVariable Long hotelId)
-	{
-		System.out.println("in del category "+hotelId);
-		return (hotelservice.deleteHotel(hotelId));
-		
+	public ApiResponse deleteHotelDetails(@PathVariable Long hotelId) {
+		System.out.println("in del category " + hotelId);
+		return hotelservice.deleteHotel(hotelId);
+
 	}
-	
-	
+
 	@PutMapping("/updatehotel")
-	public Hotel updateHotelDetails(@RequestBody Hotel category)
-	{
-		System.out.println("in update "+category);
+	public ApiResponse updateHotelDetails(@RequestBody HotelDTO category) {
+		System.out.println("in update " + category);
 		return hotelservice.updateHotel(category);
-	}
-	
-	@GetMapping("/alldestination")
-	public List<DestinationDTO> listAllDestination() {
-		System.out.println("in list all categories");
-		return destinationService.getallDestination();
 	}
 
 }

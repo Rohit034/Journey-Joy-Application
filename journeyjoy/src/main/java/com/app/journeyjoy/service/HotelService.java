@@ -2,16 +2,16 @@ package com.app.journeyjoy.service;
 
 import java.util.List;
 
+import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.HotelDTO;
-import com.app.journeyjoy.entities.Hotel;
 
 public interface HotelService {
 	List<HotelDTO> getallhotel();
 
-	Hotel addNewHotel(Hotel newhotel);
+	ApiResponse addNewHotel(HotelDTO hotel);
 
-	String deleteHotel(Long id);
+	ApiResponse deleteHotel(Long id);
 
-	Hotel updateHotel(Hotel hotel);
+	ApiResponse updateHotel(HotelDTO hotel);
 
 }

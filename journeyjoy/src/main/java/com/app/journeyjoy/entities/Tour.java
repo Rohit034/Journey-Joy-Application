@@ -24,7 +24,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude ="users")
+@ToString
 public class Tour {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

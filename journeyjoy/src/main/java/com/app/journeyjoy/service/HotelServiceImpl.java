@@ -8,8 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
+import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.HotelDTO;
+import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.entities.Hotel;
+import com.app.journeyjoy.entities.Tour;
+import com.app.journeyjoy.entities.User;
+import com.app.journeyjoy.repository.DestinationRepository;
 import com.app.journeyjoy.repository.HotelRepository;
 
 @Service
@@ -19,39 +25,45 @@ public class HotelServiceImpl implements HotelService {
 	@Autowired
 	public HotelRepository hotelRepository;
 	@Autowired
-	public ModelMapper modelmapper;
-	
-	
+	public ModelMapper modelMapper;
+	@Autowired
+	public DestinationRepository destinationRepository;
+
 	@Override
 	public List<HotelDTO> getallhotel() {
-		return hotelRepository.findAll().
-				stream().
-				map(hotel->
-				modelmapper.map(hotel, HotelDTO.class))
+		return hotelRepository.findAll().stream().map(hotel -> modelMapper.map(hotel, HotelDTO.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Hotel addNewHotel(Hotel newhotel) {
-		// TODO Auto-generated method stub
-		return hotelRepository.save(newhotel);
+	public ApiResponse addNewHotel(HotelDTO newhotel) {
+		Destination Dest = destinationRepository.findById(newhotel.destination_id)
+				.orElseThrow(() -> new ResourceNotFoundException("invalid destination_id"));
+
+		Hotel hotel = modelMapper.map(newhotel, Hotel.class);
+
+		hotel.setDestinations(Dest);
+
+		hotelRepository.save(hotel);
+
+		return new ApiResponse("New Tour added");
 	}
 
 	@Override
-	public String deleteHotel(Long id) {
+	public ApiResponse deleteHotel(Long id) {
 		if (hotelRepository.existsById(id)) {
 			// API of CrudRepo - public void deleteById(ID id)
 			hotelRepository.deleteById(id);
-			return "hotel  deleted";
+			return new ApiResponse("Hotel deleted");
 		}
-		return "deleting hotel details failed : Invalid hotel ID";
-	
+		return new ApiResponse("Invalid Hotel ID");
+
 	}
 
 	@Override
-	public Hotel updateHotel(Hotel hotel) {
+	public ApiResponse updateHotel(HotelDTO hotel) {
 		// TODO Auto-generated method stub
-		return hotelRepository.save(hotel);
+		return null;
 	}
 
 }
