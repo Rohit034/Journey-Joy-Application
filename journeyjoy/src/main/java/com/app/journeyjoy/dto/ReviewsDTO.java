@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewsDTO {
-
+	
 	public Long id;
 	public LocalDate reviewdate;
 	public String comment;

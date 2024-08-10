@@ -8,4 +8,6 @@ import com.app.journeyjoy.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmailAndPassword(String em,String pass);
+	
+	
 }

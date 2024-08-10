@@ -8,4 +8,5 @@ import com.app.journeyjoy.entities.User;
 public interface UserService {
 	UserRespDTO  authenticateUser(AuthDTO dto);
 	ApiResponse addNewUser(UserRespDTO userdto);
+	
 }
