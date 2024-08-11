@@ -13,5 +13,6 @@ public class ReviewsDTO {
 	public LocalDate reviewdate;
 	public String comment;
 	public int rating;
+	
 
 }

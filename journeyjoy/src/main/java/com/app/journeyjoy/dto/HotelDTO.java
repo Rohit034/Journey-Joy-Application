@@ -12,7 +12,7 @@ public class HotelDTO {
 	public Long id;
 	public String name;
 	public String address;
-	public int rating;
+	public int starRating;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	public Long destination_id;
 }

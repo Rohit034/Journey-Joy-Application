@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse addNewUser(UserRespDTO userdto) {
-	
+	System.out.println();
 		User user=mapper.map(userdto, User.class);
 		
 		user.setRole(Role.ROLE_CUSTOMER);

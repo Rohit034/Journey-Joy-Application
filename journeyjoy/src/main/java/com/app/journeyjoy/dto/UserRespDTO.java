@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRespDTO {
-	private String fname;
-	private String lname;
+	private String firstName;
+	private String lastName;
 	private String address;
 	private String phoneno;
 	private LocalDate dob;

@@ -13,11 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.journeyjoy.dto.ApiResponse;
+import com.app.journeyjoy.dto.BookingDTO;
 import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.dto.HotelDTO;
+import com.app.journeyjoy.dto.PaymentDTO;
+import com.app.journeyjoy.dto.ReviewsDTO;
 import com.app.journeyjoy.dto.TourDTO;
+import com.app.journeyjoy.repository.PaymentRepository;
+import com.app.journeyjoy.service.BookingService;
 import com.app.journeyjoy.service.DestinationService;
 import com.app.journeyjoy.service.HotelService;
+import com.app.journeyjoy.service.PaymentService;
+import com.app.journeyjoy.service.ReviewService;
 import com.app.journeyjoy.service.TourService;
 
 @RestController
@@ -30,6 +37,12 @@ public class AdminController {
 	private DestinationService destinationService;
 	@Autowired
 	private TourService tourService;
+	@Autowired
+	private BookingService bookingService;
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private ReviewService reviewService;
 
 //	Tour Operations
 
@@ -98,4 +111,24 @@ public class AdminController {
 		return hotelservice.updateHotel(category);
 	}
 
+//	booking operation
+
+	@GetMapping("/allBoking")
+	public List<BookingDTO> getallBooking() {
+		return bookingService.getallbooking();
+	}
+
+//  Payment operation
+
+	@GetMapping("/allPayments")
+	public List<PaymentDTO> getallPayments() {
+		return paymentService.getallpayment();
+	}
+
+//	Review operation 
+	
+	@GetMapping("/allReviews")
+	public List<ReviewsDTO> getallReviews(){
+		return reviewService.getallReview();
+	}
 }

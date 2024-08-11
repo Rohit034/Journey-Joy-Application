@@ -24,8 +24,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-<<<<<<< HEAD
-=======
 	@Autowired
 	private TourService tourService;
 	
@@ -36,7 +34,7 @@ public class UserController {
 	private HotelService hotelService;
 	
 	
->>>>>>> 3d80e999607adf55b718b15c8d2c3b6cfc1949bf
+
 	
 	@PostMapping("/signin")
 	public ResponseEntity<?> userSignIn(@RequestBody AuthDTO dto){
