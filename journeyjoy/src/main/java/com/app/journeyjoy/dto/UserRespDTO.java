@@ -11,11 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRespDTO {
-<<<<<<< Updated upstream
-=======
+
 	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
->>>>>>> Stashed changes
+
 	private String firstName;
 	private String lastName;
 	private String address;

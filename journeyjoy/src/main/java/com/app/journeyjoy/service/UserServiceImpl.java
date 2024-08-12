@@ -47,10 +47,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse addNewUser(UserRespDTO userdto) {
-<<<<<<< Updated upstream
-	System.out.println();
-=======
->>>>>>> Stashed changes
+
+
 		User user=mapper.map(userdto, User.class);
 		user.setRole(Role.ROLE_CUSTOMER);
 		userRepository.save(user);

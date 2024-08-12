@@ -22,5 +22,7 @@ public class TourDTO {
 	public double price;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	public Long user_id;
+	
+	public Long hotelId;
 
 }
