@@ -13,6 +13,7 @@ import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.TourDTO;
 import com.app.journeyjoy.entities.Tour;
 import com.app.journeyjoy.entities.User;
+import com.app.journeyjoy.repository.HotelRepository;
 import com.app.journeyjoy.repository.TourRepository;
 import com.app.journeyjoy.repository.UserRepository;
 
@@ -25,6 +26,9 @@ public class TourServiceImpl implements TourService {
 	private ModelMapper modelMapper;
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 
 	@Override
 	public List<TourDTO> getallTour() {
@@ -33,11 +37,11 @@ public class TourServiceImpl implements TourService {
 	}
 
 	@Override
-	public ApiResponse addNewTour(TourDTO newtour) {
+	public ApiResponse selectTour(TourDTO newtour) {
 
 		User u = userRepository.findById(newtour.user_id)
 				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
-
+		
 		Tour tour = modelMapper.map(newtour, Tour.class);
 
 		tour.setUsers(u);
@@ -55,5 +59,20 @@ public class TourServiceImpl implements TourService {
 		}
 		return new ApiResponse("Tour id is not valid");
 	}
+
+	@Override
+	public ApiResponse createTour(TourDTO tourdto) {
+		User u = userRepository.findById(tourdto.user_id)
+				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
+		
+		Tour tour = modelMapper.map(tourdto, Tour.class);
+
+		tour.setUsers(u);
+		
+		
+		return null;
+	}
+
+	
 
 }

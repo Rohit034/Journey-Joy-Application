@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HotelDTO {
+	@JsonProperty(access = Access.READ_ONLY)
 	public Long id;
 	public String name;
 	public String address;

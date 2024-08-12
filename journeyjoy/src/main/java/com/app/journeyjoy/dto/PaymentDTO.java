@@ -2,15 +2,22 @@ package com.app.journeyjoy.dto;
 
 import java.time.LocalDate;
 
+<<<<<<< Updated upstream
 import com.app.journeyjoy.entities.PaymentStatus;
+=======
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+>>>>>>> Stashed changes
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class PaymentDTO {
-
+	@JsonProperty(access = Access.READ_ONLY)
 	public Long id;
 	public double amount;
 	public LocalDate paymentdate;

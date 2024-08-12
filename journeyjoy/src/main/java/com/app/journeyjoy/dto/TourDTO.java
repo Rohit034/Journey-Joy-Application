@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TourDTO {
-
+	@JsonProperty(access = Access.READ_ONLY)
 	public Long id;
 	public Packages packages;
 	public LocalDate StartDate;

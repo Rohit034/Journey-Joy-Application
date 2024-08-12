@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.DestinationDTO;
+import com.app.journeyjoy.entities.Destination;
+
 
 public interface DestinationService {
 
@@ -14,4 +16,7 @@ public interface DestinationService {
 	ApiResponse deleteDestination(Long id);
 
 	ApiResponse updateDestination(DestinationDTO Destination);
+	
+	List<Destination> searchDestination(String location);
+	
 }

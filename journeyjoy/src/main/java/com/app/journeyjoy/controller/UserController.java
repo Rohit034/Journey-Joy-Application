@@ -24,6 +24,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	@Autowired
 	private TourService tourService;
 	

@@ -13,12 +13,24 @@ import com.app.journeyjoy.dto.AuthDTO;
 import com.app.journeyjoy.dto.UserRespDTO;
 import com.app.journeyjoy.entities.Role;
 import com.app.journeyjoy.entities.User;
+import com.app.journeyjoy.repository.DestinationRepository;
+import com.app.journeyjoy.repository.HotelRepository;
+import com.app.journeyjoy.repository.TourRepository;
 import com.app.journeyjoy.repository.UserRepository;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TourRepository tourRepository;
+	
+	@Autowired
+	private DestinationRepository destinationRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -35,9 +47,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse addNewUser(UserRespDTO userdto) {
+<<<<<<< Updated upstream
 	System.out.println();
+=======
+>>>>>>> Stashed changes
 		User user=mapper.map(userdto, User.class);
-		
 		user.setRole(Role.ROLE_CUSTOMER);
 		userRepository.save(user);
 		return new ApiResponse("New User is Added");

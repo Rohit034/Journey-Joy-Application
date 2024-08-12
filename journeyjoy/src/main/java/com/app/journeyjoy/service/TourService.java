@@ -8,10 +8,10 @@ import com.app.journeyjoy.dto.TourDTO;
 public interface TourService {
 	List<TourDTO> getallTour();
 
-	ApiResponse addNewTour(TourDTO tour);
+	ApiResponse selectTour(TourDTO tour);
 
 	ApiResponse deleteTour(Long id);
 
+	ApiResponse createTour(TourDTO tourdto);
 	
-
 }

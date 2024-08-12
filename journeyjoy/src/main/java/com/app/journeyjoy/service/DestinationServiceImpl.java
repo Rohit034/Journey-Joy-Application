@@ -65,4 +65,9 @@ public class DestinationServiceImpl implements DestinationService {
 		return new ApiResponse("destination is updated");
 	}
 
+	@Override
+	public List<Destination> searchDestination(String location) {
+		return destinationRepository.findByName(location);
+	}
+
 }

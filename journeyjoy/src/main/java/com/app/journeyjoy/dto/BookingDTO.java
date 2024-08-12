@@ -11,8 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BookingDTO {
-
+	@JsonProperty(access = Access.READ_ONLY)
 	public Long id;
+	
 	public LocalDate BookingDate;
 	public String PaymentStatus;
 	@JsonProperty(access = Access.WRITE_ONLY)

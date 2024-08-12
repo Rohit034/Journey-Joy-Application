@@ -66,4 +66,9 @@ public class HotelServiceImpl implements HotelService {
 		return null;
 	}
 
+	@Override
+	public List<Hotel> findHotelByDestinationId(Long destinationId) {
+		return hotelRepository.findByDestinations(destinationId);
+	}
+
 }

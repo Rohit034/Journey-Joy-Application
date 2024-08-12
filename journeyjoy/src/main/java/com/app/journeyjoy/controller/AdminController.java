@@ -51,11 +51,6 @@ public class AdminController {
 		return tourService.getallTour();
 	}
 
-	@PostMapping("/newTour")
-	public ApiResponse addNewTour(@RequestBody TourDTO tour) {
-		System.out.println("in add new category " + tour);
-		return tourService.addNewTour(tour);
-	}
 
 	@DeleteMapping("/{DeleteTourid}")
 	public ApiResponse deleteTour(@PathVariable Long DeleteTourid) {
