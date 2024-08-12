@@ -39,20 +39,7 @@ public class TourServiceImpl implements TourService {
 				.collect(Collectors.toList());
 	}
 
-//	@Override
-//	public ApiResponse selectTour(TourDTO newtour) {
-//
-//		User u = userRepository.findById(newtour.user_id)
-//				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
-//		
-//		Tour tour = modelMapper.map(newtour, Tour.class);
-//
-//		tour.setUsers(u);
-//
-//		tourRepository.save(tour);
-//
-//		return new ApiResponse("New Tour added");
-//	}
+
 
 	@Override
 	public ApiResponse deleteTour(Long id) {

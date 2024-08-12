@@ -10,8 +10,6 @@ import com.app.journeyjoy.entities.Packages;
 public interface TourService {
 	List<TourDTO> getallTour();
 
-	//ApiResponse selectTour(TourDTO tour);
-
 	ApiResponse deleteTour(Long id);
 
 	ApiResponse createTour(TourDTO tourdto,Long hotelId);

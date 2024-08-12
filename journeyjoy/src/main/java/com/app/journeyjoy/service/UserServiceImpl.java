@@ -1,7 +1,5 @@
 package com.app.journeyjoy.service;
 
-import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,25 +11,13 @@ import com.app.journeyjoy.dto.AuthDTO;
 import com.app.journeyjoy.dto.UserRespDTO;
 import com.app.journeyjoy.entities.Role;
 import com.app.journeyjoy.entities.User;
-import com.app.journeyjoy.repository.DestinationRepository;
-import com.app.journeyjoy.repository.HotelRepository;
-import com.app.journeyjoy.repository.TourRepository;
 import com.app.journeyjoy.repository.UserRepository;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private TourRepository tourRepository;
-	
-	@Autowired
-	private DestinationRepository destinationRepository;
-	
-	@Autowired
-	private HotelRepository hotelRepository;
-	
+		
 	@Autowired
 	private ModelMapper mapper;
 	
