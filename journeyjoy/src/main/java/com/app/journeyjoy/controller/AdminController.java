@@ -3,7 +3,12 @@ package com.app.journeyjoy.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+=======
 import org.springframework.web.bind.annotation.CrossOrigin;
+>>>>>>> c5d949388c36da4998565845e938fe12218c5e0a
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +25,7 @@ import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.dto.PaymentDTO;
 import com.app.journeyjoy.dto.ReviewsDTO;
 import com.app.journeyjoy.dto.TourDTO;
+import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.repository.PaymentRepository;
 import com.app.journeyjoy.service.BookingService;
 import com.app.journeyjoy.service.DestinationService;
@@ -80,6 +86,16 @@ public class AdminController {
 		return tourService.deleteTour(DeleteDestinationid);
 
 	}
+	 @PutMapping("/{id}")
+	    public ResponseEntity<?> updateDestination(@PathVariable Long id,@RequestBody DestinationDTO newDetails) {
+	        try {
+	        ApiResponse response= destinationService.updateDestination(id, newDetails);
+	        return ResponseEntity.ok(response);
+	        		}
+	        catch (RuntimeException e) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+			} 
+	    }
 
 //	Hotel operations
 
@@ -103,9 +119,14 @@ public class AdminController {
 	}
 
 	@PutMapping("/updatehotel")
-	public ApiResponse updateHotelDetails(@RequestBody HotelDTO category) {
-		System.out.println("in update " + category);
-		return hotelservice.updateHotel(category);
+	public ResponseEntity<?> updateHotelDetails(@PathVariable Long id,@RequestBody HotelDTO hotel) {
+		try {
+			ApiResponse response=hotelservice.updateHotel(id, hotel);
+			return ResponseEntity.ok(response);
+		}
+		catch(RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage())); 
+		}
 	}
 
 //	booking operation

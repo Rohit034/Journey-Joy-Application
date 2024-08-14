@@ -15,7 +15,7 @@ public interface DestinationService {
 
 	ApiResponse deleteDestination(Long id);
 
-	ApiResponse updateDestination(DestinationDTO Destination);
+	ApiResponse updateDestination(Long id, DestinationDTO newDetails);
 	
 	List<Destination> searchDestination(String location);
 	

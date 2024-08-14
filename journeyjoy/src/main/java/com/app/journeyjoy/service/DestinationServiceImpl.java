@@ -1,6 +1,7 @@
 package com.app.journeyjoy.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -60,10 +61,26 @@ public class DestinationServiceImpl implements DestinationService {
 	}
 
 	@Override
-	public ApiResponse updateDestination(DestinationDTO Destination) {
-		// TODO Auto-generated method stub
-		return new ApiResponse("destination is updated");
-	}
+	  public ApiResponse updateDestination(Long id, DestinationDTO newDetails) {
+		
+	        Optional<Destination> optionalDestination =  destinationRepository.findById(id);
+	       
+	        Destination existingDestination = optionalDestination.get();
+	            existingDestination.setName(newDetails.getName());
+	            existingDestination.setDescription(newDetails.getDescription());
+	            existingDestination.setLocation(newDetails.getLocation());
+	            existingDestination.setPopularity(newDetails.popularity);
+	          
+	            Tour tour = tourRepository.findById(newDetails.tour_id)
+	    				.orElseThrow(() -> new ResourceNotFoundException("invalid Tour_id"));
+	            existingDestination.setTours(tour);
+	            Destination Dest = modelMapper.map(existingDestination, Destination.class);
+
+	    		Dest.setTours(tour);
+	             destinationRepository.save(Dest);
+	             return new ApiResponse("New Destination added");
+	         
+	    }
 
 	@Override
 	public List<Destination> searchDestination(String location) {
