@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserRespDTO authenticateUser(AuthDTO dto) {
-		User user=userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPwd())
+		User user=userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword())
 				.orElseThrow(()->new InvalidCredentialsException("Invalid email or password !!1"));
 		
 		return mapper.map(user, UserRespDTO.class);

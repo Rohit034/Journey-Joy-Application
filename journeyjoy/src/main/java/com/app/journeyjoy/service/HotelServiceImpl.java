@@ -84,8 +84,10 @@ public class HotelServiceImpl implements HotelService {
 	    }
 
 	@Override
-	public List<Hotel> findHotelByDestinationId(Long destinationId) {
-		return hotelRepository.findByDestinations(destinationId);
+	public List<HotelDTO> findHotelByDestinationId(Long destinationId) {
+		
+		return hotelRepository.findByDestinations(destinationId).stream().map(hotel->modelMapper.map(hotel, HotelDTO.class)).collect(Collectors.toList());
+		
 	}
 
 }

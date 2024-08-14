@@ -3,8 +3,12 @@ package com.app.journeyjoy.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+=======
+import org.springframework.web.bind.annotation.CrossOrigin;
+>>>>>>> c5d949388c36da4998565845e938fe12218c5e0a
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +36,7 @@ import com.app.journeyjoy.service.TourService;
 
 @RestController
 @RequestMapping("/Admin")
+@CrossOrigin("*")
 public class AdminController {
 
 	@Autowired // byType
@@ -75,7 +80,7 @@ public class AdminController {
 		return destinationService.addNewDestination(Dest);
 	}
 
-	@DeleteMapping("/{DeleteDestinationid}")
+	@DeleteMapping("/deletedestination/{DeleteDestinationid}")
 	public ApiResponse deleteDestination(@PathVariable Long DeleteDestinationid) {
 
 		return tourService.deleteTour(DeleteDestinationid);
@@ -106,7 +111,7 @@ public class AdminController {
 		return hotelservice.addNewHotel(hotel);
 	}
 
-	@DeleteMapping("/{hotelId}")
+	@DeleteMapping("/deletehotel/{hotelId}")
 	public ApiResponse deleteHotelDetails(@PathVariable Long hotelId) {
 		System.out.println("in del category " + hotelId);
 		return hotelservice.deleteHotel(hotelId);
