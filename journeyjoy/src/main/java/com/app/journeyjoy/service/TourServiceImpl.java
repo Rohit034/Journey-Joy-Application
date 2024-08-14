@@ -58,35 +58,12 @@ public class TourServiceImpl implements TourService {
 		Hotel hotel=hotelRepository.findById(hotelId).orElseThrow(()->new ResourceNotFoundException("Hotel id not found"));
 		Tour tour = modelMapper.map(tourdto, Tour.class);
 		tour.setUsers(u);
-		Double basepriceforpackage=getPriceBasedOnPackage(tour.getPackages());//to get the package price 
-		
-		Double hotelpricebyrating=hotel.getStarRating()*50.0;//to get the hotel price by rating 
-		
-		int days=(int)ChronoUnit.DAYS.between(tour.getStartdate(),tour.getEndDate());
-		tour.setPrice(basepriceforpackage+hotelpricebyrating*days);
 		tourRepository.save(tour);
 		return new ApiResponse("new tour is created");
 	}
 	
 	
-	private Double getPriceBasedOnPackage(Packages packageType) {
-	    switch (packageType) {
-	        case ADVENTURE:
-	            return 150.0;
-	        case CULTURAL:
-	            return 180.0;
-	        case CRUISE:
-	            return 250.0;
-	        case FAMILY:
-	            return 120.0;
-	        case ROMANTIC:
-	            return 220.0;
-	        case LUXURY:
-	            return 300.0;
-	        default:
-	            return 0.0;
-	    }
-	}
+	
 
 
 }

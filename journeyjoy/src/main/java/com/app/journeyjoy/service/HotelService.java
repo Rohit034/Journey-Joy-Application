@@ -15,5 +15,5 @@ public interface HotelService {
 
 	ApiResponse updateHotel(HotelDTO hotel);
 	
-	List<Hotel> findHotelByDestinationId(Long destinationId);
+	List<HotelDTO> findHotelByDestinationId(Long destinationId);
 }

@@ -10,6 +10,9 @@ class UserService {
     userRegistration(userRespDTO) {
         return axios.post(`${baseurl}/userRegistration`, userRespDTO);
     }
+    getHotelsByDestinationId(destinationId) {
+        return axios.get(`${baseurl}/gethotels`, { params: { destinationid: destinationId } });
+      }
 
     bookTour(tourDTO, hotelId) {
         return axios.post(`${baseurl}/createtour?hotelId=${hotelId}`, tourDTO);
