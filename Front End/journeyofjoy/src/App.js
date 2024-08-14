@@ -14,7 +14,7 @@ function App() {
       <Header></Header>
       <MainNavBar></MainNavBar>
       <Routes>
-      <Route path="/SignIn" element={<SignIn/>} />
+      <Route path="/" element={<SignIn/>} />
       <Route path="/TourList" element={<TourList/>} />
       <Route path="/SignUp" element={<SignUp></SignUp>}></Route>
       </Routes>
