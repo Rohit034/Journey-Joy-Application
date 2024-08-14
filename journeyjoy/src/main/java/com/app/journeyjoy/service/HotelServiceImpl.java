@@ -1,6 +1,7 @@
 package com.app.journeyjoy.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
 import com.app.journeyjoy.dto.ApiResponse;
+import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.entities.Hotel;
@@ -61,10 +63,25 @@ public class HotelServiceImpl implements HotelService {
 	}
 
 	@Override
-	public ApiResponse updateHotel(HotelDTO hotel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	  public ApiResponse updateHotel(Long id, HotelDTO newDetails) {
+		
+	        Optional<Hotel> optionalDestination =  hotelRepository.findById(id);
+	       
+	        Hotel existingHotel = optionalDestination.get();
+	        existingHotel.setName(newDetails.getName());
+	        existingHotel.setAddress(newDetails.address);
+	        existingHotel.setStarRating(newDetails.starRating);
+	          
+	            Destination Dest = destinationRepository.findById(newDetails.destination_id)
+	    				.orElseThrow(() -> new ResourceNotFoundException("invalid Destination_id"));
+	            existingHotel.setDestinations(Dest);
+	            Hotel hotel = modelMapper.map(existingHotel, Hotel.class);
+	    		hotel.setDestinations(Dest);
+	    		
+	    		hotelRepository.save(hotel);
+	             return new ApiResponse("New Destination added");
+	         
+	    }
 
 	@Override
 	public List<Hotel> findHotelByDestinationId(Long destinationId) {

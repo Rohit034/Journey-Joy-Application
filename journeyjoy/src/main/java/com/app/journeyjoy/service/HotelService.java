@@ -13,7 +13,7 @@ public interface HotelService {
 
 	ApiResponse deleteHotel(Long id);
 
-	ApiResponse updateHotel(HotelDTO hotel);
+	ApiResponse updateHotel(Long id,HotelDTO hotel);
 	
 	List<Hotel> findHotelByDestinationId(Long destinationId);
 }
