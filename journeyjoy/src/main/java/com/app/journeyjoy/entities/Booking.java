@@ -2,6 +2,7 @@ package com.app.journeyjoy.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,7 +37,7 @@ public class Booking {
 	@Column(name = "bookingdate")
 	private LocalDate bookingdate;
 	//booking1->1tour
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tour_id")
 	private Tour tours;
 	@Enumerated(EnumType.STRING)

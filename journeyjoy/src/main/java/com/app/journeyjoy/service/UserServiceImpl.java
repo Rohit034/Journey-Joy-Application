@@ -36,7 +36,9 @@ public class UserServiceImpl implements UserService {
 
 
 		User user=mapper.map(userdto, User.class);
-		user.setRole(Role.ROLE_CUSTOMER);
+		if (user.getRole() == null) {
+	        user.setRole(Role.ROLE_CUSTOMER); 
+	    }
 		userRepository.save(user);
 		return new ApiResponse("New User is Added");
 	}

@@ -7,6 +7,8 @@ import SignIn from './pages/SignIn';
 import Header from './Components/Header';
 import TourList from './pages/TourList';
 import SignUp from './pages/SignUp';
+import Payment from './pages/Payment';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <Routes>
       <Route path="/" element={<SignIn/>} />
       <Route path="/TourList" element={<TourList/>} />
+      <Route path="/payment"element={<Payment/>} ></Route>
       <Route path="/SignUp" element={<SignUp></SignUp>}></Route>
       </Routes>
     </div>

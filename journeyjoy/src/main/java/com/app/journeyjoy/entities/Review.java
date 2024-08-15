@@ -2,6 +2,7 @@ package com.app.journeyjoy.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,15 +39,15 @@ public class Review {
 	@Column(name = "reviewDate")
 	private LocalDate ReviewDate;
 	//Reviews * -> 1 hotels
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "hotel_id",nullable = false)
 	private Hotel hotels;
 	//Reviews * -> 1 tours
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tour_id",nullable = false)
 	private Tour tours;
 	//Reviews * -> 1 user
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id",nullable = false)
 	private User users;
 }

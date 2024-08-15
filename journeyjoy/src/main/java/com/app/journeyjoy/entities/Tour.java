@@ -2,6 +2,7 @@ package com.app.journeyjoy.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,7 +40,7 @@ public class Tour {
 	@Column(name = "price")
 	private double price;
 	//Tour*-> 1 User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id",nullable = false)
 	private User users;
 }

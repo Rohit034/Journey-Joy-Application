@@ -32,7 +32,14 @@ export default function SignInForm() {
         const user = result.data;
         if (user && user.id) {
           localStorage.setItem('userId', user.id);
-          navigate('/TourList');
+          console.log('User role:', user.role);
+          if (user.role === 'ROLE_CUSTOMER') {
+            navigate('/TourList');
+          } else if (user.role === 'ROLE_ADMIN') {
+            navigate('/AdminDashboard'); // Change to the desired admin page
+          } else {
+            alert('Unknown role. Please contact support.');
+          }
         } else {
           alert('Failed to retrieve user information.');
         }

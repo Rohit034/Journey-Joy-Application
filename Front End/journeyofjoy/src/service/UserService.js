@@ -15,7 +15,8 @@ class UserService {
       }
 
     bookTour(tourDTO, hotelId) {
-        return axios.post(`${baseurl}/createtour?hotelId=${hotelId}`, tourDTO);
+        return axios.post(`${baseurl}/createtour?hotelId=${hotelId}`, tourDTO)
+      
     }
 
     searchDestination(location) {
@@ -29,6 +30,10 @@ class UserService {
     makeBooking(bookingDTO) {
         return axios.post(`${baseurl}/makeBooking`, bookingDTO);
     }
+    makePayment(paymentDTO, bookingId) {
+        return axios.post(`${baseurl}/makePayment?bookingId=${bookingId}`, paymentDTO);
+    }
+
 }
 
 export default new UserService();

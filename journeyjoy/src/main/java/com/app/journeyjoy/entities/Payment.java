@@ -42,7 +42,7 @@ public class Payment {
 	private PaymentStatus paymentstatus;
 	@Column(name = "paymentmethod",length = 30)
 	private String paymentmethod;
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "booking_id")
 	private Booking bookings;
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
 import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.BookingDTO;
+import com.app.journeyjoy.dto.BookingRespDTO;
 import com.app.journeyjoy.entities.Booking;
 import com.app.journeyjoy.entities.Tour;
 import com.app.journeyjoy.entities.User;
@@ -40,14 +41,14 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public ApiResponse createBooking(BookingDTO bookingDTO) {
-        Tour tour = tourRepository.findById(bookingDTO.getTour_id())
+	public BookingRespDTO createBooking(BookingDTO bookingDTO) {
+        Tour tour = tourRepository.findById(bookingDTO.getTours())
                 .orElseThrow(() -> new ResourceNotFoundException("Tour id not found"));
 
         Booking booking =modelMapper.map(bookingDTO, Booking.class);
         booking.setTours(tour);
-        bookingRepository.save(booking);
-        return new ApiResponse("Booking created successfully");
+        Booking bookings=bookingRepository.save(booking);
+        return modelMapper.map(bookings, BookingRespDTO.class);
 	}
 
 }

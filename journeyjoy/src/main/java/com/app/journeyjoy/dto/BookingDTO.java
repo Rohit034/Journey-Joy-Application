@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class BookingDTO {
 	@JsonProperty(access = Access.READ_ONLY)
 	public Long id;
@@ -17,7 +19,7 @@ public class BookingDTO {
 	public LocalDate BookingDate;
 	public String PaymentStatus;
 	@JsonProperty(access = Access.WRITE_ONLY)
-	public Long tour_id;
+	public Long tours;
 	
 
 }
