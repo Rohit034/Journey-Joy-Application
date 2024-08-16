@@ -8,6 +8,7 @@ export default function SignInForm() {
     email: '',
     password: ''
   });
+  const [errorMessage, setErrorMessage] = useState('');  // New state for error messages
 
   const navigate = useNavigate();
 
@@ -46,8 +47,13 @@ export default function SignInForm() {
       })
       .catch((error) => {
         console.error('There was an error signing in!', error);
-        alert('Failed to sign in. Please check your credentials and try again.');
+        // Set the error message based on the response
+        setErrorMessage(error.response?.data?.message || 'Failed to sign in. Please check your credentials and try again.');
       });
+  };
+
+  const handleForgotPassword = () => {
+    navigate('/reset-password');
   };
 
   return (
@@ -95,11 +101,22 @@ export default function SignInForm() {
             Sign In
           </button>
 
+          {errorMessage && (
+            <div className="text-danger mt-3">
+              {errorMessage}
+            </div>
+          )}
+
           <div className="text-center mt-3">
             <p>
               Don't have an account?{' '}
               <a href="/signup" className="text-decoration-none">
                 Sign up
+              </a>
+            </p>
+            <p>
+              <a href="#!" onClick={handleForgotPassword} className="text-decoration-none">
+                Forgot Password?
               </a>
             </p>
           </div>

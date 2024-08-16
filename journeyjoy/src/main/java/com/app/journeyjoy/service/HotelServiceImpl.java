@@ -11,12 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
 import com.app.journeyjoy.dto.ApiResponse;
-import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.entities.Hotel;
-import com.app.journeyjoy.entities.Tour;
-import com.app.journeyjoy.entities.User;
 import com.app.journeyjoy.repository.DestinationRepository;
 import com.app.journeyjoy.repository.HotelRepository;
 

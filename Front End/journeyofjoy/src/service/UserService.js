@@ -34,6 +34,10 @@ class UserService {
         return axios.post(`${baseurl}/makePayment?bookingId=${bookingId}`, paymentDTO);
     }
 
+    resetPassword(email, newPassword) {
+        return axios.post(`${baseurl}/resetPassword`, null, { params: { email, newPassword } });
+    }
+
 }
 
 export default new UserService();

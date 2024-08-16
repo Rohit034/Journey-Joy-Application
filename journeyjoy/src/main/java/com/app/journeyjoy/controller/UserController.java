@@ -17,7 +17,6 @@ import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.AuthDTO;
 import com.app.journeyjoy.dto.BookingDTO;
 import com.app.journeyjoy.dto.BookingRespDTO;
-import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.dto.PaymentDTO;
 import com.app.journeyjoy.dto.ReviewsDTO;
 import com.app.journeyjoy.dto.TourDTO;
@@ -137,7 +136,16 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	
+	@PostMapping("/resetPassword")
+	public ResponseEntity<?> resetPassword(@RequestParam String email, @RequestParam String newPassword) {
+	    try {
+	        ApiResponse response = userService.resetPassword(email, newPassword);
+	        return ResponseEntity.status(HttpStatus.OK).body(response);
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+	    }
+	}
+
 
 	
 

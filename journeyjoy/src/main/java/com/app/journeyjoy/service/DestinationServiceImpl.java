@@ -14,7 +14,6 @@ import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.entities.Tour;
-import com.app.journeyjoy.entities.User;
 import com.app.journeyjoy.repository.DestinationRepository;
 import com.app.journeyjoy.repository.TourRepository;
 
@@ -52,7 +51,7 @@ public class DestinationServiceImpl implements DestinationService {
 	@Override
 	public ApiResponse deleteDestination(Long id) {
 		if (destinationRepository.existsById(id)) {
-			// API of CrudRepo - public void deleteById(ID id)
+		
 			destinationRepository.deleteById(id);
 			return new ApiResponse("Destination is deleted");
 		}

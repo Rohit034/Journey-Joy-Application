@@ -43,4 +43,17 @@ public class UserServiceImpl implements UserService {
 		return new ApiResponse("New User is Added");
 	}
 
+
+	@Override
+	public ApiResponse resetPassword(String email, String newPassword) {
+		
+		 User user = userRepository.findByEmail(email)
+		            .orElseThrow(() -> new InvalidCredentialsException("User with this email not found!"));
+		    
+		    user.setPassword(newPassword);
+		    userRepository.save(user);
+		    
+		    return new ApiResponse("Password reset successfully!");
+	}
+
 }

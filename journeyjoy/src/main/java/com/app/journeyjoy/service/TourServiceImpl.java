@@ -59,6 +59,10 @@ public class TourServiceImpl implements TourService {
 
 	@Override
 	public TourRespDTO createTour(TourDTO tourdto,Long hotelId) {
+		
+		if(tourdto.getEndDate().isBefore(tourdto.getStartDate())) {
+			throw new IllegalArgumentException("End date cannot be before start date.");
+		}
 		User u = userRepository.findById(tourdto.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
 		

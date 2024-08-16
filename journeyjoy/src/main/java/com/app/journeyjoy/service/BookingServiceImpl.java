@@ -9,12 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
-import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.BookingDTO;
 import com.app.journeyjoy.dto.BookingRespDTO;
 import com.app.journeyjoy.entities.Booking;
 import com.app.journeyjoy.entities.Tour;
-import com.app.journeyjoy.entities.User;
 import com.app.journeyjoy.repository.BookingRepository;
 import com.app.journeyjoy.repository.TourRepository;
 import com.app.journeyjoy.repository.UserRepository;
