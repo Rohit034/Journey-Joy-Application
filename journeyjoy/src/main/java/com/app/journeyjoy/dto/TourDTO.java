@@ -17,12 +17,9 @@ public class TourDTO {
 	@JsonProperty(access = Access.READ_ONLY)
 	public Long id;
 	public Packages packages;
-	public LocalDate StartDate;
-	public LocalDate EndDate;
+	public LocalDate startDate;
+	public LocalDate endDate;
 	public double price;
-	@JsonProperty(access = Access.WRITE_ONLY)
-	public Long user_id;
-	
-	public Long hotelId;
+	public Long userId;
 
 }

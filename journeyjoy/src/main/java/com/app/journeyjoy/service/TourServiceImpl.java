@@ -1,6 +1,6 @@
 package com.app.journeyjoy.service;
 
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +34,15 @@ public class TourServiceImpl implements TourService {
 	private HotelRepository hotelRepository;
 
 	@Override
-	public List<TourDTO> getallTour() {
-		return tourRepository.findAll().stream().map(tour -> modelMapper.map(tour, TourDTO.class))
-				.collect(Collectors.toList());
+	
+		public List<TourDTO> getallTour() {
+		    return tourRepository.findAll().stream()
+		        .map(tour -> {
+		            TourDTO dto = modelMapper.map(tour, TourDTO.class);
+		            dto.setUserId(tour.getUsers().getId()); // Set user_id in the DTO
+		            return dto;
+		        })
+		        .collect(Collectors.toList());
 	}
 
 
@@ -52,16 +58,44 @@ public class TourServiceImpl implements TourService {
 
 	@Override
 	public ApiResponse createTour(TourDTO tourdto,Long hotelId) {
-		User u = userRepository.findById(tourdto.user_id)
+		User u = userRepository.findById(tourdto.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
 		
 		Hotel hotel=hotelRepository.findById(hotelId).orElseThrow(()->new ResourceNotFoundException("Hotel id not found"));
+		
+		double price = calculatePrice(tourdto.getPackages(), hotel.getStarRating(), tourdto.getStartDate(), tourdto.getEndDate());
 		Tour tour = modelMapper.map(tourdto, Tour.class);
+		tour.setPrice(price);
 		tour.setUsers(u);
 		tourRepository.save(tour);
 		return new ApiResponse("new tour is created");
 	}
 	
+	private double calculatePrice(Packages packageType, int hotelStarRating, LocalDate startDate, LocalDate endDate) {
+	    long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
+	    double basePriceForPackage = getPriceBasedOnPackage(packageType);
+	    double hotelPriceByRating = hotelStarRating * 50.0;
+	    return basePriceForPackage + hotelPriceByRating * days;
+	}
+
+	private double getPriceBasedOnPackage(Packages packageType) {
+	    switch (packageType) {
+	        case ADVENTURE:
+	            return 150.0;
+	        case CULTURAL:
+	            return 180.0;
+	        case CRUISE:
+	            return 250.0;
+	        case FAMILY:
+	            return 120.0;
+	        case ROMANTIC:
+	            return 220.0;
+	        case LUXURY:
+	            return 300.0;
+	        default:
+	            return 0.0;
+	    }
+	}
 	
 	
 

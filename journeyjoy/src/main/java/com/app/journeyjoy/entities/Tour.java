@@ -33,7 +33,7 @@ public class Tour {
 	@Column(name = "packages",length = 20)
 	private Packages packages;
 	@Column(name = "startdate")
-	private LocalDate startdate;
+	private LocalDate startDate;
 	@Column(name = "enddate")
 	private LocalDate endDate;
 	@Column(name = "price")

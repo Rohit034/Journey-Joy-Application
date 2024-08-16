@@ -59,7 +59,13 @@ public class DestinationServiceImpl implements DestinationService {
 		return new ApiResponse("Destination id is not valid");
 
 	}
-
+	
+	 @Override
+	    public DestinationDTO getDestinationById(Long id) {
+	        Destination destination = destinationRepository.findById(id)
+	                .orElseThrow(() -> new ResourceNotFoundException("Destination not found"));
+	        return modelMapper.map(destination, DestinationDTO.class);
+	    }
 	@Override
 	  public ApiResponse updateDestination(Long id, DestinationDTO newDetails) {
 		

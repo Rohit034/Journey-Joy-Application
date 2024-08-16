@@ -51,7 +51,7 @@ function TourList() {
   };
 
   const handleBookTour = async (hotel) => {
-    const userId = localStorage.getItem('user_id'); // Retrieve the user_id from localStorage
+    const userId = localStorage.getItem('userId'); // Retrieve the user_id from localStorage
 
     if (!userId) {
       alert("Please log in to book a tour.");
@@ -59,15 +59,15 @@ function TourList() {
     }
 
     const tourData = {
-      user_id: userId,
-      startdate: startDate,
+      userId: userId,
+      startDate: startDate,
       endDate: endDate,
       packages: packageType,
       hotelId: hotel.id,
     };
 
     try {
-      await UserService.createTour(tourData, hotel.id);
+      await UserService.bookTour(tourData, hotel.id);
       alert("Tour booked successfully!");
     } catch (error) {
       console.error("Error booking tour:", error);

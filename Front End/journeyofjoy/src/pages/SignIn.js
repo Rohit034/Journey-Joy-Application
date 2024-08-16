@@ -31,7 +31,7 @@ export default function SignInForm() {
 
         const user = result.data;
         if (user && user.id) {
-          localStorage.setItem('user_id', user.id);
+          localStorage.setItem('userId', user.id);
           navigate('/TourList');
         } else {
           alert('Failed to retrieve user information.');
