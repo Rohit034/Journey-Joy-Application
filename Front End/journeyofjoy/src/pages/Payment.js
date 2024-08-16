@@ -1,59 +1,70 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserService from "../service/UserService";
 
 function Payment() {
-  const [paymentMethod, setPaymentMethod] = useState('Credit Card');
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Get tour data from localStorage
   const tourData = JSON.parse(localStorage.getItem('tourData'));
-  const tourId=localStorage.getItem('tourId')
- 
+  const tourId = JSON.parse(localStorage.getItem('tourId'));
+
+   console.log(tourId)
+
+
   useEffect(() => {
     if (tourData) {
-      setAmount(tourData.price); // Initialize amount with tourData.price
+      setAmount(tourData.price);
     } else {
       setError("No tour data found.");
-      navigate("/"); // Redirect to home if no tour data
+      navigate("/"); 
     }
   }, [tourData, navigate]);
 
-  const handlePayment = async (e) => {
+  const handleBooking = async (e) => {
     e.preventDefault();
-    
+
 
     try {
-      // First, create the booking
+   
       const bookingData = {
         BookingDate: new Date().toISOString().split('T')[0],
-        PaymentStatus: "PENDING",
-        tours: tourId,
+        paymentStatus: "PENDING",
+      
+        tourId:parseInt(tourId), 
       };
+      console.log(bookingData)
+     await UserService.makeBooking(bookingData)
+     .then((result)=>{
+      console.log(result)
+      const bookingId=result.data.id
+      localStorage.setItem('bookingId',bookingId)
+     })
+ 
+      navigate('/makePayment');
 
-      
-      const resp=await UserService.makeBooking(bookingData);
-      const bookingId=resp.data.id
-       const paymentDTO = {
-        amount: parseFloat(amount),
-        paymentmethod: paymentMethod,
-        paymentstatus: 'COMPLETED' // Ensure this matches the enum in the backend
-      };
-       await UserService.makePayment(paymentDTO, bookingId);
-       navigate(`/bookingConfirmation`);
-      
     } catch (error) {
-      console.error("Error making payment:", error);
-      setError("Payment failed. Please try again.");
+      console.error("Error making booking:", error);
+      if (error.response) {
+       
+      
+       
+        setError(`Server Error: ${error.response.data.message || 'Booking failed. Please try again.'}`);
+      } else if (error.request) {
+      
+        setError('Network Error: Please check your connection.');
+      } else {
+      
+        setError(`Error: ${error.message}`);
+      }
     }
   };
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Payment</h1>
-      <form onSubmit={handlePayment}>
+      <h1 className="text-center mb-4">Booking</h1>
+      <form onSubmit={handleBooking}>
         <div className="form-group">
           <label htmlFor="amount">Amount</label>
           <input
@@ -64,19 +75,7 @@ function Payment() {
             readOnly
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="paymentMethod">Payment Method</label>
-          <select
-            id="paymentMethod"
-            className="form-control"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          >
-            <option value="Credit Card">Credit Card</option>
-            <option value="PayPal">PayPal</option>
-          </select>
-        </div>
-        <button type="submit" className="btn btn-primary">Pay</button>
+        <button type="submit" className="btn btn-primary">Create Booking</button>
         {error && <p className="text-danger mt-3">{error}</p>}
       </form>
     </div>

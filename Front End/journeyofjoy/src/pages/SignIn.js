@@ -36,7 +36,7 @@ export default function SignInForm() {
           if (user.role === 'ROLE_CUSTOMER') {
             navigate('/TourList');
           } else if (user.role === 'ROLE_ADMIN') {
-            navigate('/AdminDashboard'); // Change to the desired admin page
+            navigate('/AdminDashboard');
           } else {
             alert('Unknown role. Please contact support.');
           }

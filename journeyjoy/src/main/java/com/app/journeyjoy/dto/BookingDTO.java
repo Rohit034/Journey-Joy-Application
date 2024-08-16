@@ -2,6 +2,7 @@ package com.app.journeyjoy.dto;
 
 import java.time.LocalDate;
 
+import com.app.journeyjoy.entities.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -13,13 +14,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BookingDTO {
-	@JsonProperty(access = Access.READ_ONLY)
-	public Long id;
+	@JsonProperty(access =Access.READ_ONLY)
+    private Long id;
 	
-	public LocalDate BookingDate;
-	public String PaymentStatus;
-	@JsonProperty(access = Access.WRITE_ONLY)
-	public Long tours;
+    private LocalDate bookingDate;
+    private PaymentStatus paymentStatus;
+    @JsonProperty(access = Access.READ_WRITE)
+    private Long tourId;
+
 	
+
+
 
 }

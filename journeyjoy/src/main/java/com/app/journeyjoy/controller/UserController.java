@@ -112,6 +112,7 @@ public class UserController {
 	@PostMapping("/makeBooking")
 	public ResponseEntity<?> makeBooking(@RequestBody BookingDTO bookingDTO) {
 		try {
+			
 			BookingRespDTO response = bookingService.createBooking(bookingDTO);
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		} catch (RuntimeException e) {

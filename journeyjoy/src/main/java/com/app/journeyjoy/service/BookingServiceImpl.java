@@ -42,7 +42,10 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public BookingRespDTO createBooking(BookingDTO bookingDTO) {
-        Tour tour = tourRepository.findById(bookingDTO.getTours())
+		 if (bookingDTO.getTourId() == null) {
+		        throw new IllegalArgumentException("Tour ID must not be null.");
+		    }
+        Tour tour = tourRepository.findById(bookingDTO.getTourId())
                 .orElseThrow(() -> new ResourceNotFoundException("Tour id not found"));
 
         Booking booking =modelMapper.map(bookingDTO, Booking.class);

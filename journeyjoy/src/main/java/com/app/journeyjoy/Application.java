@@ -19,6 +19,7 @@ public class Application {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT)
 				.setPropertyCondition(Conditions.isNotNull());
+		
 		return modelMapper;
 	}
 

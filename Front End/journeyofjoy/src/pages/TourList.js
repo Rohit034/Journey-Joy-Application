@@ -81,7 +81,7 @@ function TourList() {
     })
      
      
-    navigate(`/payment`);
+    navigate(`/payment`,{ state: { tourData } });
      
     } catch (error) {
       console.error("Error booking tour or creating booking:", error);

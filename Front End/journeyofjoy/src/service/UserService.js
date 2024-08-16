@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseurl = "http://localhost:8080/users"; // Adjust the base URL as necessary
+const baseurl = "http://localhost:8080/users"; 
 
 class UserService {
     userSignIn(authDTO) {
@@ -28,7 +28,7 @@ class UserService {
     }
 
     makeBooking(bookingDTO) {
-        return axios.post(`${baseurl}/makeBooking`, bookingDTO);
+        return axios.post(`${baseurl}/makeBooking` ,bookingDTO);
     }
     makePayment(paymentDTO, bookingId) {
         return axios.post(`${baseurl}/makePayment?bookingId=${bookingId}`, paymentDTO);
