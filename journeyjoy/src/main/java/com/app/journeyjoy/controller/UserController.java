@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.AuthDTO;
 import com.app.journeyjoy.dto.BookingDTO;
+import com.app.journeyjoy.dto.BookingRespDTO;
 import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.dto.PaymentDTO;
 import com.app.journeyjoy.dto.ReviewsDTO;
@@ -79,6 +80,9 @@ public class UserController {
 	@PostMapping("/createtour")
 	public ResponseEntity<?> bookTour(@RequestBody TourDTO tourdto, @RequestParam Long hotelId) {
 		try {
+			if (hotelId == null) {
+	            throw new IllegalArgumentException("Hotel ID must not be null.");
+	        }
 			return ResponseEntity.status(HttpStatus.CREATED).body(tourService.createTour(tourdto, hotelId));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
@@ -108,7 +112,8 @@ public class UserController {
 	@PostMapping("/makeBooking")
 	public ResponseEntity<?> makeBooking(@RequestBody BookingDTO bookingDTO) {
 		try {
-			ApiResponse response = bookingService.createBooking(bookingDTO);
+			
+			BookingRespDTO response = bookingService.createBooking(bookingDTO);
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
@@ -123,16 +128,17 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-//	@PostMapping("/makePayment")
-//	public ResponseEntity<?> makePayment(@RequestBody PaymentDTO paymentDTO) {
-//		try {
-//			ApiResponse response = bookingService.processPayment(paymentDTO);
-//			return ResponseEntity.status(HttpStatus.OK).body(response);
-//		} catch (RuntimeException e) {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
-//		}
-//	}
+	@PostMapping("/makePayment")
+	public ResponseEntity<?> makePayment(@RequestBody PaymentDTO paymentDTO,@RequestParam Long bookingId) {
+		try {
+			ApiResponse response = paymentService.paymentProcess(paymentDTO,bookingId);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+		}
+	}
 	
+
 	
 
 }

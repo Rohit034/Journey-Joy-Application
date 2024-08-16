@@ -1,20 +1,19 @@
-// src/components/Header.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Header = () => {
   return (
     <header>
-      <h1>Journey Of Joy's</h1>
-      {/* <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/signin">Sign In</Link></li>
-          <li><Link to="/register">Register</Link></li>
-        </ul>
-      </nav> */}
+      <nav className="navbar navbar-light" style={{ backgroundColor: '#007bff' }}>
+        <div className="container-fluid">
+          <Link className="navbar-brand text-white" to="/">
+            <h1 className="display-6">Journey Of Joy</h1>
+          </Link>
+        </div>
+      </nav>
     </header>
   );
 };
-export default Header;
 
+export default Header;

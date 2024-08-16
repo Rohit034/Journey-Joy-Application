@@ -3,6 +3,7 @@ package com.app.journeyjoy.dto;
 
 import java.time.LocalDate;
 
+import com.app.journeyjoy.entities.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -22,4 +23,5 @@ public class UserRespDTO {
 	private LocalDate dob;
 	private String email;
 	private String password;
+	private Role role;
 }

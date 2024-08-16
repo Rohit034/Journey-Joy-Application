@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
 import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.TourDTO;
+import com.app.journeyjoy.dto.TourRespDTO;
 import com.app.journeyjoy.entities.Hotel;
 import com.app.journeyjoy.entities.Packages;
 import com.app.journeyjoy.entities.Tour;
@@ -57,7 +58,7 @@ public class TourServiceImpl implements TourService {
 	}
 
 	@Override
-	public ApiResponse createTour(TourDTO tourdto,Long hotelId) {
+	public TourRespDTO createTour(TourDTO tourdto,Long hotelId) {
 		User u = userRepository.findById(tourdto.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
 		
@@ -67,8 +68,12 @@ public class TourServiceImpl implements TourService {
 		Tour tour = modelMapper.map(tourdto, Tour.class);
 		tour.setPrice(price);
 		tour.setUsers(u);
-		tourRepository.save(tour);
-		return new ApiResponse("new tour is created");
+		
+		Tour tours=tourRepository.save(tour);
+	    
+	    
+	   
+		return modelMapper.map(tours, TourRespDTO.class);
 	}
 	
 	private double calculatePrice(Packages packageType, int hotelStarRating, LocalDate startDate, LocalDate endDate) {

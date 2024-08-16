@@ -1,5 +1,6 @@
 package com.app.journeyjoy.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Hotel {
 	@Column(name = "starRating")
 	private int starRating;
 	// hotel*->1 destination
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "destination_id")
 	private Destination destinations;
 

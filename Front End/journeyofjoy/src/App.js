@@ -8,6 +8,7 @@ import Header from './Components/Header';
 import AboutUs from './pages/AboutUs';
 import TourList from './pages/TourList';
 import SignUp from './pages/SignUp';
+<<<<<<< HEAD
 import AddHotels from './pages/AdminController/AddHotels';
 import HotelList from './pages/AdminController/DeleteHotel';
 import AdminDashboard from './pages/AdminController/AdminDashboard';
@@ -20,6 +21,12 @@ import BookingManagement from './pages/AdminController/BookingManagement';
 import ReviewManagement from './pages/AdminController/ReviewManagement';
 import PaymentManagement from './pages/AdminController/PaymentManagement';
 import EditHotel from './pages/AdminController/EditHotel';
+=======
+import Payment from './pages/payment';
+import PaymentPage from './pages/PaymentPage';
+import Logout from './pages/Logout';
+import Footer from './Components/Footer';
+>>>>>>> 4472a0c83f3e2dd923d7ea7d21cd1ec9cfc60151
 
 
 function App() {
@@ -28,6 +35,7 @@ function App() {
       <Header></Header>
       <MainNavBar></MainNavBar>
       <Routes>
+<<<<<<< HEAD
       <Route path="/" element={<SignIn/>} />
       <Route path="/aboutus" element={<AboutUs/>} />
       <Route path="/TourList" element={<TourList/>} />
@@ -43,8 +51,17 @@ function App() {
       <Route path="admin/dashboard/reviews" element={<ReviewManagement />}/>
       <Route path="admin/dashboard/destinations" element={<DestinationManagement />}/>
       <Route path="admin/dashboard/hotels" element={<HotelManagement />}/>
+=======
+      <Route path="/" element={<TourList/>} />
+      <Route path="/SignIn" element={<SignIn/>} />
+      <Route path="/TourList" element={<TourList/>} />
+      <Route path="/payment"element={<Payment/>} ></Route>
+      <Route path='/makePayment' element={<PaymentPage/>}/>
+>>>>>>> 4472a0c83f3e2dd923d7ea7d21cd1ec9cfc60151
       <Route path="/SignUp" element={<SignUp></SignUp>}></Route>
+      <Route path="/logout" element={<Logout />} />
       </Routes>
+      <Footer></Footer>
     </div>
   );
 }

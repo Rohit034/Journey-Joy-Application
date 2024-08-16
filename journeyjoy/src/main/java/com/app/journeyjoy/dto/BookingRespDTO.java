@@ -10,20 +10,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @ToString
-public class BookingDTO {
-	@JsonProperty(access =Access.READ_ONLY)
-    private Long id;
-	
-    private LocalDate bookingDate;
-    private PaymentStatus paymentStatus;
-    @JsonProperty(access = Access.READ_WRITE)
-    private Long tourId;
-
-	
-
-
-
+public class BookingRespDTO {
+	@JsonProperty(access = Access.READ_ONLY)
+	private Long id;
+	private LocalDate bookingDate;
+	private PaymentStatus paymentStatus;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private Long tourId; 
 }

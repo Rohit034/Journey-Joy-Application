@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import UserService from "../service/UserService";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,6 +10,7 @@ function TourList() {
   const [packageType, setPackageType] = useState('');
   const [hotels, setHotels] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const navigate = useNavigate(); 
 
   const getPriceBasedOnPackage = (packageType) => {
     switch (packageType) {
@@ -40,7 +42,7 @@ function TourList() {
     e.preventDefault();
     try {
       const destinationResponse = await UserService.searchDestination(location);
-      const destinationId = destinationResponse.data[0].id; // Assuming you only need the first destination found
+      const destinationId = destinationResponse.data[0].id; 
       const hotelResponse = await UserService.getHotelsByDestinationId(destinationId);
       setHotels(hotelResponse.data);
       setSearchPerformed(true);
@@ -51,7 +53,7 @@ function TourList() {
   };
 
   const handleBookTour = async (hotel) => {
-    const userId = localStorage.getItem('userId'); // Retrieve the user_id from localStorage
+    const userId = localStorage.getItem('userId');
 
     if (!userId) {
       alert("Please log in to book a tour.");
@@ -64,14 +66,26 @@ function TourList() {
       endDate: endDate,
       packages: packageType,
       hotelId: hotel.id,
+      price: calculatePrice(hotel),
     };
-
+    localStorage.setItem('tourData', JSON.stringify(tourData));
+    
     try {
-      await UserService.bookTour(tourData, hotel.id);
-      alert("Tour booked successfully!");
+      
+    await UserService.bookTour(tourData, hotel.id)
+    .then((result)=>{
+      console.log(result)
+      const tour=result.data
+      localStorage.setItem('tourId',tour.id)
+
+    })
+     
+     
+    navigate(`/payment`,{ state: { tourData } });
+     
     } catch (error) {
-      console.error("Error booking tour:", error);
-      alert("Failed to book the tour.");
+      console.error("Error booking tour or creating booking:", error);
+      alert("Failed to book the tour or create the booking.");
     }
   };
 
