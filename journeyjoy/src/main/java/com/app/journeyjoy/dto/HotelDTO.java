@@ -14,5 +14,6 @@ public class HotelDTO {
 	public String name;
 	public String address;
 	public int starRating;
+	@JsonProperty(access = Access.WRITE_ONLY)
 	public Long destination_id;
 }

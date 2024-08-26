@@ -30,14 +30,15 @@ export default function SignInForm() {
       .then((result) => {
         console.log('User signed in successfully:', result);
 
-        const user = result.data;
+        const user = result.data.user;
+        localStorage.setItem('token',result.data.jwt)
         if (user && user.id) {
           localStorage.setItem('userId', user.id);
           console.log('User role:', user.role);
           if (user.role === 'ROLE_CUSTOMER') {
             navigate('/TourList');
           } else if (user.role === 'ROLE_ADMIN') {
-            navigate('/AdminDashboard');
+            navigate('/admin/dashboard');
           } else {
             alert('Unknown role. Please contact support.');
           }

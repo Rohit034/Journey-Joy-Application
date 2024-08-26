@@ -11,9 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.journeyjoy.custom_exceptions.ResourceNotFoundException;
 import com.app.journeyjoy.dto.ApiResponse;
+import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.entities.Hotel;
+import com.app.journeyjoy.entities.Tour;
+import com.app.journeyjoy.entities.User;
 import com.app.journeyjoy.repository.DestinationRepository;
 import com.app.journeyjoy.repository.HotelRepository;
 
@@ -28,18 +31,11 @@ public class HotelServiceImpl implements HotelService {
 	@Autowired
 	public DestinationRepository destinationRepository;
 
-	
 	@Override
 	public List<HotelDTO> getallhotel() {
-	    return hotelRepository.findAll().stream()
-	        .map(hotel -> {
-	            HotelDTO dto = modelMapper.map(hotel, HotelDTO.class);
-	            dto.setDestination_id(hotel.getDestinations().getId()); // Set destination_id in DTO
-	            return dto;
-	        })
-	        .collect(Collectors.toList());
+		return hotelRepository.findAll().stream().map(hotel -> modelMapper.map(hotel, HotelDTO.class))
+				.collect(Collectors.toList());
 	}
-
 
 	@Override
 	public ApiResponse addNewHotel(HotelDTO newhotel) {
@@ -85,12 +81,6 @@ public class HotelServiceImpl implements HotelService {
 	    		hotelRepository.save(hotel);
 	             return new ApiResponse("New Destination added");
 	         
-	    }
-	 @Override
-	    public HotelDTO getHotelById(Long id) {
-	        Hotel hotel = hotelRepository.findById(id)
-	                .orElseThrow(() -> new ResourceNotFoundException("Destination not found"));
-	        return modelMapper.map(hotel, HotelDTO.class);
 	    }
 
 	@Override

@@ -33,7 +33,7 @@ function AdminDashboard() {
         </nav>
       </div>
     </div>
-  );
+  ); 
 }
 
 export default AdminDashboard;

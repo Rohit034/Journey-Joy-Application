@@ -2,9 +2,15 @@ package com.app.journeyjoy.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +25,12 @@ import com.app.journeyjoy.dto.BookingDTO;
 import com.app.journeyjoy.dto.BookingRespDTO;
 import com.app.journeyjoy.dto.PaymentDTO;
 import com.app.journeyjoy.dto.ReviewsDTO;
+import com.app.journeyjoy.dto.SigninResponse;
 import com.app.journeyjoy.dto.TourDTO;
 import com.app.journeyjoy.dto.UserRespDTO;
 import com.app.journeyjoy.entities.Destination;
+import com.app.journeyjoy.security.CustomUserDetails;
+import com.app.journeyjoy.security.JwtUtils;
 import com.app.journeyjoy.service.BookingService;
 import com.app.journeyjoy.service.DestinationService;
 import com.app.journeyjoy.service.HotelService;
@@ -55,27 +64,47 @@ public class UserController {
 	@Autowired
 	private PaymentService paymentService;
 
+	@Autowired
+	private AuthenticationManager authMgr;
+	
+	@Autowired
+	private JwtUtils jwtUtils;
+	
 	@PostMapping("/signin")
-	public ResponseEntity<?> userSignIn(@RequestBody AuthDTO dto) {
+	public ResponseEntity<?> userSignIn(@RequestBody @Valid AuthDTO request) {
 		try {
-			UserRespDTO respDto = userService.authenticateUser(dto);
-			return ResponseEntity.ok(respDto);
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(),
+					request.getPassword());
+			//2.  invoke auth mgr's authenticate method;
+			Authentication verifiedToken = authMgr.authenticate(token);
+				// => authentication n authorization successful !
+			CustomUserDetails custuser =  (CustomUserDetails) verifiedToken.getPrincipal();
+				//3. In case of successful auth,  create JWT n send it to the clnt in response
+			SigninResponse resp = new SigninResponse(jwtUtils.generateJwtToken(verifiedToken),new UserRespDTO(custuser.getUser()));
+			//UserRespDTO respDto = userService.authenticateUser(dto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
 
+	
+	
+	
+	
 	@PostMapping("/userRegistration")
 	public ResponseEntity<?> userRegistration(@RequestBody UserRespDTO udto) {
 		try {
-			ApiResponse registeruser = userService.addNewUser(udto);
+			UserRespDTO registeruser = userService.addNewUser(udto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(registeruser);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-
+	
+	
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/createtour")
 	public ResponseEntity<?> bookTour(@RequestBody TourDTO tourdto, @RequestParam Long hotelId) {
 		try {
@@ -87,7 +116,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/searchDestination")
 	public ResponseEntity<?> searchDestination(@RequestParam String Location) {
 		try {
@@ -97,7 +126,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
-
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/addTourReview")
 	public ResponseEntity<?> addTourReview(@RequestBody ReviewsDTO reviewDTO, @RequestParam Long tourId) {
 		try {
@@ -107,7 +136,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/makeBooking")
 	public ResponseEntity<?> makeBooking(@RequestBody BookingDTO bookingDTO) {
 		try {
@@ -118,6 +147,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/gethotels")
 	public ResponseEntity<?> getHotelBydestinationid(@RequestParam Long destinationid) {
 		try {
@@ -127,6 +157,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
+	 @PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/makePayment")
 	public ResponseEntity<?> makePayment(@RequestBody PaymentDTO paymentDTO,@RequestParam Long bookingId) {
 		try {
@@ -136,16 +167,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	@PostMapping("/resetPassword")
-	public ResponseEntity<?> resetPassword(@RequestParam String email, @RequestParam String newPassword) {
-	    try {
-	        ApiResponse response = userService.resetPassword(email, newPassword);
-	        return ResponseEntity.status(HttpStatus.OK).body(response);
-	    } catch (RuntimeException e) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
-	    }
-	}
-
+	
 
 	
 

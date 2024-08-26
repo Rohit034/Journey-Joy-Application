@@ -20,6 +20,9 @@ public class TourDTO {
 	public LocalDate startDate;
 	public LocalDate endDate;
 	public double price;
+	@JsonProperty(access = Access.WRITE_ONLY)
 	public Long userId;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	public Long hotelId;
 
 }

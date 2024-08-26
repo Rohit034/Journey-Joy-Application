@@ -18,7 +18,5 @@ public interface DestinationService {
 	ApiResponse updateDestination(Long id, DestinationDTO newDetails);
 	
 	List<Destination> searchDestination(String location);
-	 
-	DestinationDTO getDestinationById(Long id);
 	
 }

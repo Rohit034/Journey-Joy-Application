@@ -14,6 +14,7 @@ import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.DestinationDTO;
 import com.app.journeyjoy.entities.Destination;
 import com.app.journeyjoy.entities.Tour;
+import com.app.journeyjoy.entities.User;
 import com.app.journeyjoy.repository.DestinationRepository;
 import com.app.journeyjoy.repository.TourRepository;
 
@@ -36,7 +37,7 @@ public class DestinationServiceImpl implements DestinationService {
 
 	@Override
 	public ApiResponse addNewDestination(DestinationDTO newDestination) {
-		Tour tour = tourRepository.findById(newDestination.tour_id)
+		Tour tour = tourRepository.findById(newDestination.getTour_id())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid Tour_id"));
 
 		Destination Dest = modelMapper.map(newDestination, Destination.class);
@@ -51,20 +52,14 @@ public class DestinationServiceImpl implements DestinationService {
 	@Override
 	public ApiResponse deleteDestination(Long id) {
 		if (destinationRepository.existsById(id)) {
-		
+			// API of CrudRepo - public void deleteById(ID id)
 			destinationRepository.deleteById(id);
 			return new ApiResponse("Destination is deleted");
 		}
 		return new ApiResponse("Destination id is not valid");
 
 	}
-	
-	 @Override
-	    public DestinationDTO getDestinationById(Long id) {
-	        Destination destination = destinationRepository.findById(id)
-	                .orElseThrow(() -> new ResourceNotFoundException("Destination not found"));
-	        return modelMapper.map(destination, DestinationDTO.class);
-	    }
+
 	@Override
 	  public ApiResponse updateDestination(Long id, DestinationDTO newDetails) {
 		
@@ -76,7 +71,7 @@ public class DestinationServiceImpl implements DestinationService {
 	            existingDestination.setLocation(newDetails.getLocation());
 	            existingDestination.setPopularity(newDetails.popularity);
 	          
-	            Tour tour = tourRepository.findById(newDetails.tour_id)
+	            Tour tour = tourRepository.findById(newDetails.getTour_id())
 	    				.orElseThrow(() -> new ResourceNotFoundException("invalid Tour_id"));
 	            existingDestination.setTours(tour);
 	            Destination Dest = modelMapper.map(existingDestination, Destination.class);

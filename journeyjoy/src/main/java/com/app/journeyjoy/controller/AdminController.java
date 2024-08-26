@@ -3,9 +3,12 @@ package com.app.journeyjoy.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,8 @@ import com.app.journeyjoy.dto.HotelDTO;
 import com.app.journeyjoy.dto.PaymentDTO;
 import com.app.journeyjoy.dto.ReviewsDTO;
 import com.app.journeyjoy.dto.TourDTO;
+import com.app.journeyjoy.entities.Destination;
+import com.app.journeyjoy.repository.PaymentRepository;
 import com.app.journeyjoy.service.BookingService;
 import com.app.journeyjoy.service.DestinationService;
 import com.app.journeyjoy.service.HotelService;
@@ -48,7 +53,7 @@ public class AdminController {
 	private ReviewService reviewService;
 
 //	Tour Operations
-
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/getAllTour")
 	public List<TourDTO> listAllTour() {
 		return tourService.getallTour();
@@ -74,15 +79,11 @@ public class AdminController {
 		System.out.println("in add new category " + Dest);
 		return destinationService.addNewDestination(Dest);
 	}
-	@GetMapping("/getDestinationById/{id}")
-	public DestinationDTO getDestinationByid(@PathVariable Long id) {
-		return destinationService.getDestinationById(id);
-	}
 
 	@DeleteMapping("/deletedestination/{DeleteDestinationid}")
 	public ApiResponse deleteDestination(@PathVariable Long DeleteDestinationid) {
 
-		return destinationService.deleteDestination(DeleteDestinationid);
+		return tourService.deleteTour(DeleteDestinationid);
 
 	}
 	 @PutMapping("/{id}")
@@ -103,12 +104,6 @@ public class AdminController {
 
 		return hotelservice.getallhotel();
 	}
-	
-	@GetMapping("/getHotelById/{id}")
-	public HotelDTO getHotelByid(@PathVariable Long id) {
-		return hotelservice.getHotelById(id);
-	}
-	
 
 	@PostMapping("/newHotel")
 	public ApiResponse addNewhotel(@RequestBody HotelDTO hotel) {
@@ -123,7 +118,7 @@ public class AdminController {
 
 	}
 
-	@PutMapping("/Hotel/{id}")
+	@PutMapping("/updatehotel")
 	public ResponseEntity<?> updateHotelDetails(@PathVariable Long id,@RequestBody HotelDTO hotel) {
 		try {
 			ApiResponse response=hotelservice.updateHotel(id, hotel);

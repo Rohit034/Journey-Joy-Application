@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.HotelDTO;
+import com.app.journeyjoy.entities.Hotel;
 
 public interface HotelService {
 	List<HotelDTO> getallhotel();
@@ -15,6 +16,4 @@ public interface HotelService {
 	ApiResponse updateHotel(Long id,HotelDTO hotel);
 	
 	List<HotelDTO> findHotelByDestinationId(Long destinationId);
-
-	HotelDTO getHotelById(Long id);
 }

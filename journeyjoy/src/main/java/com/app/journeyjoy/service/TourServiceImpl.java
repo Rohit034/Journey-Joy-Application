@@ -1,6 +1,7 @@
 package com.app.journeyjoy.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,15 +36,9 @@ public class TourServiceImpl implements TourService {
 	private HotelRepository hotelRepository;
 
 	@Override
-	
-		public List<TourDTO> getallTour() {
-		    return tourRepository.findAll().stream()
-		        .map(tour -> {
-		            TourDTO dto = modelMapper.map(tour, TourDTO.class);
-		            dto.setUserId(tour.getUsers().getId()); // Set user_id in the DTO
-		            return dto;
-		        })
-		        .collect(Collectors.toList());
+	public List<TourDTO> getallTour() {
+		return tourRepository.findAll().stream().map(tour -> modelMapper.map(tour, TourDTO.class))
+				.collect(Collectors.toList());
 	}
 
 
@@ -59,10 +54,6 @@ public class TourServiceImpl implements TourService {
 
 	@Override
 	public TourRespDTO createTour(TourDTO tourdto,Long hotelId) {
-		
-		if(tourdto.getEndDate().isBefore(tourdto.getStartDate())) {
-			throw new IllegalArgumentException("End date cannot be before start date.");
-		}
 		User u = userRepository.findById(tourdto.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("invalid user_id"));
 		

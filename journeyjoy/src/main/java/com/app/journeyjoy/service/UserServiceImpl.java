@@ -2,9 +2,11 @@ package com.app.journeyjoy.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.journeyjoy.custom_exceptions.*;
 import com.app.journeyjoy.custom_exceptions.InvalidCredentialsException;
 import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.AuthDTO;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ModelMapper mapper;
 	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@Override
 	public UserRespDTO authenticateUser(AuthDTO dto) {
@@ -32,28 +36,16 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public ApiResponse addNewUser(UserRespDTO userdto) {
+	public UserRespDTO addNewUser(UserRespDTO userdto) {
 
 
 		User user=mapper.map(userdto, User.class);
-		if (user.getRole() == null) {
-	        user.setRole(Role.ROLE_CUSTOMER); 
-	    }
-		userRepository.save(user);
-		return new ApiResponse("New User is Added");
-	}
-
-
-	@Override
-	public ApiResponse resetPassword(String email, String newPassword) {
-		
-		 User user = userRepository.findByEmail(email)
-		            .orElseThrow(() -> new InvalidCredentialsException("User with this email not found!"));
-		    
-		    user.setPassword(newPassword);
-		    userRepository.save(user);
-		    
-		    return new ApiResponse("Password reset successfully!");
+		if(userRepository.existsByEmail(userdto.getEmail())) {
+			throw new ApiException("Email already exists !!!");
+		}
+		user.setRole(Role.ROLE_CUSTOMER);
+		user.setPassword(encoder.encode(user.getPassword()));
+		return mapper.map(userRepository.save(user), UserRespDTO.class);
 	}
 
 }

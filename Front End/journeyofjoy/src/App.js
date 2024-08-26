@@ -22,7 +22,7 @@ import ReviewManagement from './pages/AdminController/ReviewManagement';
 import PaymentManagement from './pages/AdminController/PaymentManagement';
 import EditHotel from './pages/AdminController/EditHotel';
 
-import Payment from './pages/payment';
+import Payment from './pages/Payment';
 import PaymentPage from './pages/PaymentPage';
 import Logout from './pages/Logout';
 import Footer from './Components/Footer';
