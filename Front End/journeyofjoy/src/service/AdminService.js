@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-var baseUrl="https://localhost:8443/Admin";
+var baseUrl="http://localhost:8443/Admin";
 const token = localStorage.getItem('token');
 
 class AdminService{

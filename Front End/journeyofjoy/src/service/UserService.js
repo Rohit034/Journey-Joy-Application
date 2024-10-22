@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseurl = "https://localhost:8443/users";
+const baseurl = "http://localhost:8443/users";
 const token = localStorage.getItem('token'); // Get the token from localStorage
 
 class UserService {

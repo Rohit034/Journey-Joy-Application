@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 import 'bootstrap/dist/css/bootstrap.css'
 import MainNavBar from './Components/MainNavBar';
 import { Route, Routes } from 'react-router-dom';
@@ -27,14 +28,52 @@ import PaymentPage from './pages/PaymentPage';
 import Logout from './pages/Logout';
 import Footer from './Components/Footer';
 import ResetPassword from './pages/ResetPassword';
-
-
+import { Carousel } from 'react-bootstrap';
+import travelimage from './images/travel image 3.jpg';
+import travelimage2 from './images/image2.webp';
+import travelimage3 from './images/image3.png';
+import './Components/carousel.css';
 
 function App() {
   return (
     <div>
       <Header></Header>
       <MainNavBar></MainNavBar>
+      <Carousel>
+        <Carousel.Item interval={3000}>
+          <img
+            className="d-block w-100"
+            src={travelimage} 
+            alt="First slide"
+          />
+          <Carousel.Caption>
+            <h3>Explore the World with Us</h3>
+            <p>Discover amazing destinations and adventures.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item interval={3000}>
+          <img
+            className="d-block w-100"
+            src={travelimage2}
+            alt="Second slide"
+          />
+          <Carousel.Caption>
+            <h3>Luxury Travel Experience</h3>
+            <p>Enjoy luxury hotels and experiences with our tailored packages.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item interval={3000}>
+          <img
+            className="d-block w-100"
+            src={travelimage3}
+            alt="Third slide"
+          />
+          <Carousel.Caption>
+            <h3>Unforgettable Adventures</h3>
+            <p>Create lasting memories with adventure-packed tours.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
       <Routes>
 
       {/* <Route path="/" element={<SignIn/>} /> */}
