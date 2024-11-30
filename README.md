@@ -1,5 +1,5 @@
 Journey of Joy
-A dynamic travel management platform where users can plan holiday packages, choose destinations, and get personalized hotel recommendations with pricing based on 
+A dynamic travel management platform where users can plan packages, choose destinations, and get personalized hotel recommendations with pricing based on 
 ratings and discounts.
 
 Table of Contents
