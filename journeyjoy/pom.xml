@@ -107,9 +107,21 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.razorpay</groupId>
+			<artifactId>razorpay-java</artifactId>
+			<version>1.4.8</version>
+		</dependency>
+
+
 	</dependencies>
-	
-	
+	<repositories>
+		<repository>
+			<id>razorpay</id>
+			<url>https://maven.razorpay.com</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>

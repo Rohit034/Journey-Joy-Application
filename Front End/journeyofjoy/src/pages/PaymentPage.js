@@ -51,6 +51,40 @@ function PaymentPage() {
     }
   };
 
+  const initiateRazorpay = () => {
+    const options = {
+      key: "YOUR_KEY_ID", // Replace with your Razorpay Key ID
+      amount: amount * 100, // Convert to paise (Razorpay uses the smallest currency unit)
+      currency: "INR",
+      name: "Journey of Joy",
+      description: "Tour Payment",
+      image: "https://example.com/your_logo", // Optional: your company logo
+      order_id: "order_IluGWxBm9U8zJ8", // Replace with the actual order ID you get from your server
+      handler: function (response) {
+        alert(`Payment successful!\nPayment ID: ${response.razorpay_payment_id}\nOrder ID: ${response.razorpay_order_id}\nSignature: ${response.razorpay_signature}`);
+        // Optionally call your backend to confirm payment status
+      },
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9000090000",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc", // Customize theme color
+      },
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response) {
+      alert(`Payment failed! Error: ${response.error.description}`);
+    });
+
+    rzp1.open();
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Payment</h1>
@@ -83,6 +117,11 @@ function PaymentPage() {
         <button type="submit" className="btn btn-primary">Pay</button>
         {error && <p className="text-danger mt-3">{error}</p>}
       </form>
+
+      <button id="rzp-button1" className="btn btn-success mt-3" onClick={initiateRazorpay}>Pay with Razorpay</button>
+
+      {/* Razorpay Checkout Script */}
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </div>
   );
 }
