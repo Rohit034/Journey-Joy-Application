@@ -57,10 +57,7 @@ Git
 Steps:
 Clone the repository:
 
-bash
-Copy code
-git clone https://github.com/Rohit034/journey-of-joy.git  
-cd journey-of-joy  
+
 Set up the Backend:
 
 Navigate to the backend folder:
