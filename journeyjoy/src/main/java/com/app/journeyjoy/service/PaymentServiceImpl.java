@@ -43,7 +43,35 @@ public class PaymentServiceImpl implements PaymentService {
                 .map(payment -> modelMapper.map(payment, PaymentDTO.class))
                 .collect(Collectors.toList());
     }
+    @Override
+    public ApiResponse createRazorpayOrder(PaymentDTO paymentDTO) {
+        // Fetch the booking information using bookingId from the paymentDTO
+        Booking booking = bookingRepository.findById(paymentDTO.getBooking_id())
+                .orElseThrow(() -> new RuntimeException("Booking ID not found!"));
 
+        try {
+            // Create Razorpay Order
+            JSONObject orderRequest = new JSONObject();
+            orderRequest.put("amount", paymentDTO.getAmount() * 100); // Amount in paise
+            orderRequest.put("currency", "INR");
+            orderRequest.put("receipt", "receipt#" + paymentDTO.getBooking_id());
+            JSONObject notes = new JSONObject();
+            notes.put("notes_key_1", "Booking ID: " + paymentDTO.getBooking_id());
+            orderRequest.put("notes", notes);
+
+            Order order = razorpayClient.orders.create(orderRequest);
+
+            // Save payment details in the database
+            Payment payment = modelMapper.map(paymentDTO, Payment.class);
+            payment.setBookings(booking);
+            payment.setId(order.get("id"));
+            paymentRepository.save(payment);
+
+            return new ApiResponse("Razorpay order created successfully!", order.get("id"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating Razorpay order: " + e.getMessage(), e);
+        }
+    }
     @Override
     public ApiResponse paymentProcess(PaymentDTO paymentDTO, Long bookingId) {
         // Fetch booking details

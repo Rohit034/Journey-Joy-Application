@@ -69,6 +69,7 @@ class UserService {
             }
         });
     }
+    
 
     // Reset password
     resetPassword(email, newPassword) {
@@ -77,6 +78,14 @@ class UserService {
                 'Authorization': `Bearer ${token}`
             },
             params: { email, newPassword }
+        });
+    }
+
+    createRazorpayOrder(paymentDetails) {
+        return axios.post(`${baseurl}/createRazorpayOrder`, paymentDetails, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
     }
 }

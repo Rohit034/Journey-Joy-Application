@@ -167,6 +167,17 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
+	 @PreAuthorize("hasRole('CUSTOMER')")
+	 @PostMapping("/createRazorpayOrder")
+	 public ResponseEntity<?> createRazorpayOrder(@RequestBody PaymentDTO paymentDTO) {
+	     try {
+	         ApiResponse response = paymentService.paymentProcess(paymentDTO, paymentDTO.getBooking_id());
+	         return ResponseEntity.ok(response);
+	     } catch (Exception e) {
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error: " + e.getMessage()));
+	     }
+	 }
+
 	
 
 	

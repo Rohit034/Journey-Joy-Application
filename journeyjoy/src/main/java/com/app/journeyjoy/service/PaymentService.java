@@ -8,4 +8,5 @@ import com.app.journeyjoy.dto.PaymentDTO;
 public interface PaymentService {
 	List<PaymentDTO> getallpayment();
 	ApiResponse paymentProcess(PaymentDTO paymentDTO,Long bookingid);
+	ApiResponse createRazorpayOrder(PaymentDTO paymentDTO);
 }
