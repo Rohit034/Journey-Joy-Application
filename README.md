@@ -59,7 +59,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/your-username/journey-of-joy.git  
+git clone https://github.com/Rohit034/journey-of-joy.git  
 cd journey-of-joy  
 Set up the Backend:
 
