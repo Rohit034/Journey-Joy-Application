@@ -46,7 +46,7 @@ public class SecurityConfig {
 				"/v*/api-doc*/**","/swagger-ui/**").permitAll()
 		// only required for JS clnts (react / angular) : for the pre flight requests
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
-		.antMatchers("/users/searchDestination","/users/createtour","/users/addTourReview","/users/makeBooking","/users/gethotels","/users/makePayment","/users/createRazorpayOrder").hasRole("CUSTOMER")//permitAll()
+		.antMatchers("/users/searchDestination","/users/createtour","/users/addTourReview","/users/makeBooking","/users/gethotels","/users/makePayment","/users/createRazorpayOrder","/users/payment/response").hasRole("CUSTOMER")//permitAll()
 		.antMatchers("/Admin/getAllTour","/Admin/{DeleteTourid}","/Admin/getAllDestination",
 				"/Admin/newDestination","/Admin/deletedestination/{DeleteDestinationid}",
 				"/Admin/allhotel","/Admin/newHotel","/Admin/deletehotel/{hotelId}","/Admin/updatehotel"
