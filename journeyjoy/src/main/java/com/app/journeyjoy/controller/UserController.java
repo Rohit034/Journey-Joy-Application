@@ -23,7 +23,9 @@ import com.app.journeyjoy.dto.ApiResponse;
 import com.app.journeyjoy.dto.AuthDTO;
 import com.app.journeyjoy.dto.BookingDTO;
 import com.app.journeyjoy.dto.BookingRespDTO;
+import com.app.journeyjoy.dto.CashfreePaymentResponse;
 import com.app.journeyjoy.dto.PaymentDTO;
+import com.app.journeyjoy.dto.PaymentRequest;
 import com.app.journeyjoy.dto.ReviewsDTO;
 import com.app.journeyjoy.dto.SigninResponse;
 import com.app.journeyjoy.dto.TourDTO;
@@ -54,34 +56,35 @@ public class UserController {
 
 	@Autowired
 	private HotelService hotelService;
-	
+
 	@Autowired
 	private ReviewService reviewService;
-	
+
 	@Autowired
 	private BookingService bookingService;
-	
+
 	@Autowired
 	private PaymentService paymentService;
 
 	@Autowired
 	private AuthenticationManager authMgr;
-	
+
 	@Autowired
 	private JwtUtils jwtUtils;
-	
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> userSignIn(@RequestBody @Valid AuthDTO request) {
 		try {
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(),
 					request.getPassword());
-			//2.  invoke auth mgr's authenticate method;
+			// 2. invoke auth mgr's authenticate method;
 			Authentication verifiedToken = authMgr.authenticate(token);
-				// => authentication n authorization successful !
-			CustomUserDetails custuser =  (CustomUserDetails) verifiedToken.getPrincipal();
-				//3. In case of successful auth,  create JWT n send it to the clnt in response
-			SigninResponse resp = new SigninResponse(jwtUtils.generateJwtToken(verifiedToken),new UserRespDTO(custuser.getUser()));
-			//UserRespDTO respDto = userService.authenticateUser(dto);
+			// => authentication n authorization successful !
+			CustomUserDetails custuser = (CustomUserDetails) verifiedToken.getPrincipal();
+			// 3. In case of successful auth, create JWT n send it to the clnt in response
+			SigninResponse resp = new SigninResponse(jwtUtils.generateJwtToken(verifiedToken),
+					new UserRespDTO(custuser.getUser()));
+			// UserRespDTO respDto = userService.authenticateUser(dto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 
 		} catch (RuntimeException e) {
@@ -89,10 +92,6 @@ public class UserController {
 		}
 	}
 
-	
-	
-	
-	
 	@PostMapping("/userRegistration")
 	public ResponseEntity<?> userRegistration(@RequestBody UserRespDTO udto) {
 		try {
@@ -102,20 +101,20 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	
-	
+
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/createtour")
 	public ResponseEntity<?> bookTour(@RequestBody TourDTO tourdto, @RequestParam Long hotelId) {
 		try {
 			if (hotelId == null) {
-	            throw new IllegalArgumentException("Hotel ID must not be null.");
-	        }
+				throw new IllegalArgumentException("Hotel ID must not be null.");
+			}
 			return ResponseEntity.status(HttpStatus.CREATED).body(tourService.createTour(tourdto, hotelId));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
+
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/searchDestination")
 	public ResponseEntity<?> searchDestination(@RequestParam String Location) {
@@ -126,6 +125,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
+
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/addTourReview")
 	public ResponseEntity<?> addTourReview(@RequestBody ReviewsDTO reviewDTO, @RequestParam Long tourId) {
@@ -136,50 +136,63 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
+
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/makeBooking")
 	public ResponseEntity<?> makeBooking(@RequestBody BookingDTO bookingDTO) {
 		try {
-			
+
 			BookingRespDTO response = bookingService.createBooking(bookingDTO);
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
+
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/gethotels")
 	public ResponseEntity<?> getHotelBydestinationid(@RequestParam Long destinationid) {
 		try {
-			 
+
 			return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.findHotelByDestinationId(destinationid));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	 @PreAuthorize("hasRole('CUSTOMER')")
+
+	@PreAuthorize("hasRole('CUSTOMER')")
 	@PostMapping("/makePayment")
-	public ResponseEntity<?> makePayment(@RequestBody PaymentDTO paymentDTO,@RequestParam Long bookingId) {
+	public ResponseEntity<?> makePayment(@RequestBody PaymentDTO paymentDTO, @RequestParam Long bookingId) {
 		try {
-			ApiResponse response = paymentService.paymentProcess(paymentDTO,bookingId);
+			String response = paymentService.paymentProcess(paymentDTO, bookingId);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	 @PreAuthorize("hasRole('CUSTOMER')")
-	 @PostMapping("/createRazorpayOrder")
-	 public ResponseEntity<?> createRazorpayOrder(@RequestBody PaymentDTO paymentDTO) {
-	     try {
-	         ApiResponse response = paymentService.paymentProcess(paymentDTO, paymentDTO.getBooking_id());
-	         return ResponseEntity.ok(response);
-	     } catch (Exception e) {
-	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error: " + e.getMessage()));
-	     }
-	 }
 
-	
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@PostMapping("/createOrder")
+	public ResponseEntity<?> createPaymentOrder(@RequestBody @Valid PaymentRequest paymentRequest) {
+		try {
+			String orderId = paymentService.createOrder(paymentRequest);
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(new ApiResponse("Order created successfully. Order ID: " + orderId));
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+		}
+	}
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@PostMapping("/payment/response")
+	public ResponseEntity<?> handlePaymentResponse(@RequestBody CashfreePaymentResponse response) {
+	    try {
+	        // Process the response (e.g., verify the payment status, update payment record)
+	        paymentService.handlePaymentResponse(response);
+	        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Payment status updated successfully."));
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+	    }
+	}
 
-	
 
 }

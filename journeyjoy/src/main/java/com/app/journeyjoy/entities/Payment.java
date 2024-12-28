@@ -45,4 +45,6 @@ public class Payment {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "booking_id")
 	private Booking bookings;
+	@Column(name = "order_id", unique = true, nullable = true)
+	private String orderId;
 }

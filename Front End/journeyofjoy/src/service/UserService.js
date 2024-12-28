@@ -81,13 +81,19 @@ class UserService {
         });
     }
 
-    createRazorpayOrder(paymentDetails) {
-        return axios.post(`${baseurl}/createRazorpayOrder`, paymentDetails, {
+    createPaymentOrder(paymentRequest) {
+        return axios.post(`${baseurl}/createOrder`, paymentRequest, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
+        })
+        .then(response => response.data)
+        .catch(error => {
+            console.error("Error creating payment order", error);
+            throw error.response ? error.response.data : error;
         });
     }
+
 }
 
 export default new UserService();
