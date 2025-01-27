@@ -39,7 +39,7 @@ class UserService {
             headers: {
                 'Authorization': `Bearer ${token}`
             },
-            params: { Location: location }
+            params: {  location }
         });
     }
 

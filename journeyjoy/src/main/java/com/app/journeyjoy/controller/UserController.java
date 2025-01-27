@@ -117,9 +117,9 @@ public class UserController {
 
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@GetMapping("/searchDestination")
-	public ResponseEntity<?> searchDestination(@RequestParam String Location) {
+	public ResponseEntity<?> searchDestination(@RequestParam String location) {
 		try {
-			List<Destination> destination = destinationService.searchDestination(Location);
+			List<Destination> destination = destinationService.searchDestination(location);
 			return ResponseEntity.ok(destination);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));

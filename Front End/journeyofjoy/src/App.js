@@ -33,13 +33,15 @@ import travelimage from './images/travel image 3.jpg';
 import travelimage2 from './images/image2.webp';
 import travelimage3 from './images/image3.png';
 import './Components/carousel.css';
+import HeroSection from './pages/Hero';
 
 function App() {
   return (
     <div>
-      <Header></Header>
+      {/* <Header></Header> */}
       <MainNavBar></MainNavBar>
-      <Carousel>
+      {/* <HeroSection></HeroSection> */}
+      {/* <Carousel>
         <Carousel.Item interval={3000}>
           <img
             className="d-block w-100"
@@ -73,7 +75,10 @@ function App() {
             <p>Create lasting memories with adventure-packed tours.</p>
           </Carousel.Caption>
         </Carousel.Item>
-      </Carousel>
+      </Carousel> */}
+
+
+      
       <Routes>
 
       {/* <Route path="/" element={<SignIn/>} /> */}
