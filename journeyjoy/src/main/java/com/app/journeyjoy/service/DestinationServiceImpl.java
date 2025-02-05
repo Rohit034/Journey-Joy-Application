@@ -84,7 +84,7 @@ public class DestinationServiceImpl implements DestinationService {
 
 	@Override
 	public List<Destination> searchDestination(String location) {
-		return destinationRepository.findByName(location);
+		return destinationRepository.findByLocation(location);
 	}
 
 }

@@ -44,24 +44,36 @@ public class JwtUtils {
 	public String generateJwtToken(Authentication authentication) {
 		log.info("generate jwt token " + authentication);
 		CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
-//JWT : userName,issued at ,exp date,digital signature(does not typically contain password , can contain authorities
-		return Jwts.builder() // JWTs : a Factory class , used to create JWT tokens
-				.setSubject((userPrincipal.getUsername())) // setting subject part of the token(typically user
-															// name/email)
-				.setIssuedAt(new Date())// Sets the JWT Claims iat (issued at) value of current date
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))// Sets the JWT Claims exp
-																					// (expiration) value.
-				// setting a custom claim , to add granted authorities
-				.claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))
-				// setting a custom claim , to add user id (remove it if not required in the project)
-				.claim("user_id",userPrincipal.getUser().getId())
 		
-				.signWith(key, SignatureAlgorithm.HS512) // Signs the constructed JWT using the specified
-															// algorithm with the specified key, producing a
-															// JWS(Json web signature=signed JWT)
+		// Set the expiration time, you can adjust jwtExpirationMs here as needed (e.g., extend it for 2 days)
+	    long expirationTime = jwtExpirationMs; // Can be modified as needed, for example, extending to 48 hours.
 
-				// Using token signing algo : HMAC using SHA-512
-				.compact();// Actually builds the JWT and serializes it to a compact, URL-safe string
+////JWT : userName,issued at ,exp date,digital signature(does not typically contain password , can contain authorities
+//		return Jwts.builder() // JWTs : a Factory class , used to create JWT tokens
+//				.setSubject((userPrincipal.getUsername())) // setting subject part of the token(typically user
+//															// name/email)
+//				.setIssuedAt(new Date())// Sets the JWT Claims iat (issued at) value of current date
+//				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))// Sets the JWT Claims exp
+//																					// (expiration) value.
+//				// setting a custom claim , to add granted authorities
+//				.claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))
+//				// setting a custom claim , to add user id (remove it if not required in the project)
+//				.claim("user_id",userPrincipal.getUser().getId())
+//		
+//				.signWith(key, SignatureAlgorithm.HS512) // Signs the constructed JWT using the specified
+//															// algorithm with the specified key, producing a
+//															// JWS(Json web signature=signed JWT)
+//
+//				// Using token signing algo : HMAC using SHA-512
+//				.compact();// Actually builds the JWT and serializes it to a compact, URL-safe string
+	    return Jwts.builder()
+	            .setSubject(userPrincipal.getUsername())  // setting subject part of the token
+	            .setIssuedAt(new Date())  // Sets the current date as issued time
+	            .setExpiration(new Date((new Date()).getTime() + expirationTime)) // Sets expiration based on jwtExpirationMs
+	            .claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))  // Custom claim for authorities
+	            .claim("user_id", userPrincipal.getUser().getId())  // Custom claim for user ID
+	            .signWith(key, SignatureAlgorithm.HS512)  // Sign with HS512 algorithm
+	            .compact();  // Build and return the JWT token
 	}
 
 	// this method will be invoked by our custom JWT filter
@@ -127,3 +139,6 @@ public class JwtUtils {
 			}
 
 }
+
+
+

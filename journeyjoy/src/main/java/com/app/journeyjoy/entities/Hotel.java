@@ -27,9 +27,9 @@ public class Hotel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(length = 20, name = "name")
+	@Column(length = 200, name = "name")
 	private String name;
-	@Column(length = 100, name = "address")
+	@Column(length = 200, name = "address")
 	private String address;
 	@Column(name = "starRating")
 	private int starRating;

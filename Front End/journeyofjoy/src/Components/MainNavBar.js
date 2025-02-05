@@ -2,14 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './MainNavBar.css'; // Optional if you want to use external CSS
-import logo from "../images/LogoJ.png";
+import logo from "../images/Logoo.png";
 import { Link } from 'react-router-dom';
 export default function MainNavBar() {
   return (
     <div>
       <header>
         <nav
-          className="navbar navbar-expand-lg navbar-light shadow-sm bg-white"
+          className="navbar navbar-expand-lg navbar-light shadow-sm bg-white fixed-top"
           style={{
             backgroundColor: '#f8f9fa',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -24,7 +24,7 @@ export default function MainNavBar() {
                 alt="Logo"
                 style={{ maxWidth: '100%',    // Ensures the logo scales proportionally
                   height: 'auto',      // Maintains the aspect ratio
-                  maxHeight: '100px',  // Limits the height for responsiveness
+                  maxHeight: '70px',  // Limits the height for responsiveness
                   marginRight: '10px', }}
                 
               />

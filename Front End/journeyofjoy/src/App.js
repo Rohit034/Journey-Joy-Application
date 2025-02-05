@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import MainNavBar from './Components/MainNavBar';
 import { Route, Routes } from 'react-router-dom';
 import SignIn from './pages/SignIn';
-import Header from './Components/Header';
+
 import AboutUs from './pages/AboutUs';
 import TourList from './pages/TourList';
 import SignUp from './pages/SignUp';
@@ -34,53 +34,14 @@ import travelimage2 from './images/image2.webp';
 import travelimage3 from './images/image3.png';
 import './Components/carousel.css';
 import HeroSection from './pages/Hero';
+import HotelLists from './pages/Hotellist';
 
 function App() {
   return (
     <div>
-      {/* <Header></Header> */}
+
       <MainNavBar></MainNavBar>
-      {/* <HeroSection></HeroSection> */}
-      {/* <Carousel>
-        <Carousel.Item interval={3000}>
-          <img
-            className="d-block w-100"
-            src={travelimage} 
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>Explore the World with Us</h3>
-            <p>Discover amazing destinations and adventures.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={3000}>
-          <img
-            className="d-block w-100"
-            src={travelimage2}
-            alt="Second slide"
-          />
-          <Carousel.Caption>
-            <h3>Luxury Travel Experience</h3>
-            <p>Enjoy luxury hotels and experiences with our tailored packages.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={3000}>
-          <img
-            className="d-block w-100"
-            src={travelimage3}
-            alt="Third slide"
-          />
-          <Carousel.Caption>
-            <h3>Unforgettable Adventures</h3>
-            <p>Create lasting memories with adventure-packed tours.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel> */}
-
-
-      
       <Routes>
-
       {/* <Route path="/" element={<SignIn/>} /> */}
       <Route path="/aboutus" element={<AboutUs/>} />
       <Route path="/TourList" element={<TourList/>} />
@@ -100,6 +61,7 @@ function App() {
       <Route path="/" element={<TourList/>} />
       <Route path="/SignIn" element={<SignIn/>} />
       <Route path="/TourList" element={<TourList/>} />
+      <Route path="/hotellistss" element={<HotelLists />} />
       <Route path="/payment"element={<Payment/>} ></Route>
       <Route path='/makePayment' element={<PaymentPage/>}/>
       <Route path="/reset-password" element={< ResetPassword/>} />

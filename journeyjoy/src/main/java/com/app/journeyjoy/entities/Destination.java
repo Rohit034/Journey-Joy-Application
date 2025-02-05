@@ -29,11 +29,11 @@ public class Destination {
 	private Long id;
 	@Column(name = "popularity")
 	private int popularity;
-	@Column(length = 20,name = "name")
+	@Column(length = 200,name = "name")
 	private String name;
 	@Column(length = 200,name = "description")
 	private String description;
-	@Column(length = 100,name = "location")
+	@Column(length = 200,name = "location")
 	private String location;
 	//destination*->1 tour
 	@ManyToOne(cascade = CascadeType.ALL)
